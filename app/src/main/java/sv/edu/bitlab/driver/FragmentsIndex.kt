@@ -1,0 +1,4 @@
+package sv.edu.bitlab.driver
+
+enum class FragmentsIndex { KEY_FRAGMENT_ACTIVATION,KEY_FRAGMENT_RESERVATIONS,KEY_FRAGMENT_NOTIFICATIONS}
+

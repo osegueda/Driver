@@ -1,0 +1,59 @@
+<resources>
+    <string name="app_name">Driver</string>
+    <!-- SPLASH SCREEN STRINGS -->
+    <string name="text_splash_screen_hello">Hello world!</string>
+
+
+    <!-- NAVIGATION STRINGS -->
+    <string name="text_nav_activation">Activation</string>
+    <string name="text_nav_rounds">Reservations</string>
+    <string name="text_nav_notifications">Notifications</string>
+
+
+    <!-- CONTENT DESCRIPTIONS STRINGS -->
+    <string name="text_content_description_ic_navigation">Es un icono de navegación.</string>
+
+    <!-- ACTIVATION STRINGS -->
+    <string name="text_activation_hello">Activation!</string>
+
+
+    <!-- RESERVATIONS STRINGS -->
+    <string name="text_reservations_hello">Reservations!</string>
+
+    <!-- NOTIFICATIONS STRINGS -->
+    <string name="text_notifications_hello">Notifications!</string>
+    
+
+
+
+    <!-- Reservation cardview (list_row_reservation)-->
+    <string name="reservation_id">Reservation ID</string>
+    <string name="date">Date</string>
+    <string name="status">Round Status</string>
+    <string name="reservation_count">Reservation Count</string>
+    <string name="round">Round</string>
+    <string name="schedule">Schedule</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_reservations">Reservations</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="two_format_string">%1$s %2$s</string>
+
+    <!-- ACTIVATION FRAGMENT XML STRINGS -->
+
+    <string name="txt_activate_service">Reservation Activation</string>
+    <string name="txt_reservations_schedule">Reservation Schedules</string>
+    <string name="btn_activate_reservations">Start Service</string>
+
+
+    <string-array name="schedule">
+        <item>7:00 AM - 9:00 AM</item>
+        <item>11:00 AM - 1:00 PM</item>
+        <item>5:30 PM-7:30 PM</item>
+
+
+    </string-array>
+
+
+
+</resources>
