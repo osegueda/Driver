@@ -49,6 +49,7 @@ class MainActivity : AppCompatActivity(),OnFragmentInteractionListener {
 
 
 
+
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,28 +57,28 @@ class MainActivity : AppCompatActivity(),OnFragmentInteractionListener {
 
         getDate()
 
-        getAllReservationsOnce()
+        //getAllReservationsOnce()
         ongoingRounds= ArrayList()
         reservations= ArrayList()
+         geofenceList= mutableListOf()
         listener=this
         init()
-        getPermisions()
+        //getPermisions()
         notifications()
         getToken()
-        geofencingClient = LocationServices.getGeofencingClient(this)
-        geofenceList= mutableListOf()
-        addGeofenceToList()
-        Log.d("GEO-LIST","THE LIST -> $geofenceList")
-        geofencingClient.addGeofences(getGeofencingRequest(), geofencePendingIntent)?.run {
-            addOnSuccessListener {
-                Toast.makeText(applicationContext,"SE AGREGARON LOS GEOFENCES",Toast.LENGTH_LONG).show()
-                Log.d("GEOFENCING","RESULT GEO SUCCESS")
-            }
-            addOnFailureListener {
-                Toast.makeText(applicationContext,"ERROR-> NOSE AGREGARON LOS GEOFENCES",Toast.LENGTH_LONG).show()
-                Log.d("GEOFENCING","RESULT GEO FAILURE")
-            }
-        }
+        //geofencingClient = LocationServices.getGeofencingClient(this)
+
+//        Log.d("GEO-LIST","THE LIST -> $geofenceList")
+//        geofencingClient.addGeofences(getGeofencingRequest(), geofencePendingIntent)?.run {
+//            addOnSuccessListener {
+//                Toast.makeText(applicationContext,"SE AGREGARON LOS GEOFENCES",Toast.LENGTH_LONG).show()
+//                Log.d("GEOFENCING","RESULT GEO SUCCESS")
+//            }
+//            addOnFailureListener {
+//                Toast.makeText(applicationContext,"ERROR-> NOSE AGREGARON LOS GEOFENCES",Toast.LENGTH_LONG).show()
+//                Log.d("GEOFENCING","RESULT GEO FAILURE")
+//            }
+//        }
 
        /* geofencingClient.removeGeofences(geofencePendingIntent).run {
             addOnSuccessListener {
