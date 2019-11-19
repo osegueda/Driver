@@ -1,7 +1,6 @@
-package sv.edu.bitlab.driver.fragments.notificationComponents
+package sv.edu.bitlab.driver.fragments.historyComponents
 
 import android.content.Context
-import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -12,7 +11,7 @@ import sv.edu.bitlab.driver.R
 import sv.edu.bitlab.driver.interfaces.OnFragmentInteractionListener
 
 
-class NotificationFragment : Fragment() {
+class HistoryFragment : Fragment() {
 
     private var listener: OnFragmentInteractionListener? = null
 
@@ -26,7 +25,7 @@ class NotificationFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_notification, container, false)
+        return inflater.inflate(R.layout.fragment_history, container, false)
     }
 
 
@@ -52,6 +51,6 @@ class NotificationFragment : Fragment() {
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance() =
-            NotificationFragment()
+            HistoryFragment()
     }
 }

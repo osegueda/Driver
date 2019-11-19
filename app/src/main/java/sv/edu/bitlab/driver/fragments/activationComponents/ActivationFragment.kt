@@ -1,6 +1,7 @@
 package sv.edu.bitlab.driver.fragments.activationComponents
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -13,12 +14,15 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.crashlytics.android.Crashlytics.log
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.iid.FirebaseInstanceId
 import kotlinx.android.synthetic.main.fragment_activation.view.*
+import sv.edu.bitlab.driver.APPLICATION_NAME
 
 import sv.edu.bitlab.driver.R
 import sv.edu.bitlab.driver.R.array.schedule
@@ -36,13 +40,6 @@ class ActivationFragment : Fragment(),ScheduleViewHolder.ReservationItemListener
        Toast.makeText(requireContext(),"Clicked on #$position",Toast.LENGTH_LONG).show()
     }
 
-    override fun onItemClickDetalle(btn_detalle: Button, position: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun onTextInput(input: String, position: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
 
     private var listener: OnFragmentInteractionListener? = null
     private var recycler:RecyclerView?=null
@@ -50,11 +47,13 @@ class ActivationFragment : Fragment(),ScheduleViewHolder.ReservationItemListener
     private var activationPressed:Boolean=false
     private var firestoredb = FirebaseDatabase.getInstance().getReference("reservations")
     private lateinit var today_date:String
+    private val sharedPreferences: SharedPreferences?
+        get() = context?.getSharedPreferences(APPLICATION_NAME, Context.MODE_PRIVATE)
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        activationPressed=getPreference("service")!!
         schedule=resources.getStringArray(R.array.schedule)
 
 
@@ -68,6 +67,7 @@ class ActivationFragment : Fragment(),ScheduleViewHolder.ReservationItemListener
     ): View? {
         val view=inflater.inflate(R.layout.fragment_activation, container, false)
 
+        repaintServiceButton(view.activation_btn)
 
         view.activation_btn.setOnClickListener{
 
@@ -80,10 +80,11 @@ class ActivationFragment : Fragment(),ScheduleViewHolder.ReservationItemListener
                 }else{
                     activationPressed=true
                     Toast.makeText(requireContext(), "Reservations Activated", Toast.LENGTH_LONG).show()
-                    view.activation_btn.text="Stop service"
+                    view.activation_btn.text=getString(R.string.btn_service_deactivation)
+                    setPreference("service",activationPressed)
                     updateService(true)
                    // pushNotification()
-                    view.activation_btn.setBackgroundColor(resources.getColor(android.R.color.holo_red_dark))
+                    view.activation_btn.setBackgroundResource(R.drawable.input_activation_button)
                 }
 
 
@@ -104,7 +105,7 @@ class ActivationFragment : Fragment(),ScheduleViewHolder.ReservationItemListener
         val formatted = current.format(formatter)
         today_date=formatted
         Log.d("DATE", formatted)
-        Toast.makeText(requireContext(), "$ a toast $formatted", Toast.LENGTH_SHORT).show()
+        //Toast.makeText(requireContext(), "$ a toast $formatted", Toast.LENGTH_SHORT).show()
 
 
     }
@@ -138,7 +139,7 @@ class ActivationFragment : Fragment(),ScheduleViewHolder.ReservationItemListener
                 // Log and toast
                 val msg = "the token is ->$token"
                 Log.d("NOTFICATION", msg)
-                Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show()
+               // Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show()
             })
 
     }
@@ -156,21 +157,43 @@ class ActivationFragment : Fragment(),ScheduleViewHolder.ReservationItemListener
             .setTitle("Cancel Reservations")
             .setMessage("Do you want to stop the service?")
             .setPositiveButton("Stop") { _, _ ->
+
+
                 activationPressed=false
-                button.text="Start service"
-                button.setBackgroundColor(resources.getColor(android.R.color.holo_green_dark))
+                setPreference("service",activationPressed)
+                button.text=getString(R.string.btn_service_activation)
+                button.setBackgroundResource(R.drawable.input_nav_button)
                 updateService(false)
-                Toast.makeText(requireContext(), "Reservations Deactivated", Toast.LENGTH_LONG).show()
+               Toast.makeText(requireContext(), "Reservations Deactivated", Toast.LENGTH_LONG).show()
             }
 
             .setNegativeButton("Cancel") { _, _ ->
 
-                Toast.makeText(requireContext(), "No", Toast.LENGTH_LONG).show()
+               // Toast.makeText(requireContext(), "No", Toast.LENGTH_LONG).show()
 
             }
         alertDialog.show()
     }
+    private fun setPreference(key: String, value: Boolean) {
+        sharedPreferences?.edit()?.putBoolean(key, value)?.apply()
+        Log.d("setPreferenceKey "," $key -> $value")
+    }
+    private fun getPreference(key: String): Boolean? {
+        return sharedPreferences?.getBoolean(key, false)
+    }
 
+    private fun repaintServiceButton(button: Button){
+
+        if (activationPressed) {
+            button.text = getString(R.string.btn_service_deactivation)
+            button.setBackgroundResource(R.drawable.input_activation_button)
+        }else{
+
+            button.text = getString(R.string.btn_service_activation)
+            button.setBackgroundResource(R.drawable.input_nav_button)
+        }
+
+    }
 
 
     companion object {

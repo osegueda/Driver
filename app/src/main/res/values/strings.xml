@@ -8,19 +8,22 @@
     <string name="text_nav_activation">Activation</string>
     <string name="text_nav_rounds">Reservations</string>
     <string name="text_nav_notifications">Notifications</string>
+    <string name="text_nav_history">History</string>
 
 
     <!-- CONTENT DESCRIPTIONS STRINGS -->
     <string name="text_content_description_ic_navigation">Es un icono de navegación.</string>
 
-    <!-- ACTIVATION STRINGS -->
+    <!-- ACTIVATION FRAGMENT STRINGS -->
     <string name="text_activation_hello">Activation!</string>
+    <string name="btn_service_activation">Start service</string>
+    <string name="btn_service_deactivation">Stop service</string>
 
 
-    <!-- RESERVATIONS STRINGS -->
+    <!-- RESERVATIONS FRAGMENT STRINGS -->
     <string name="text_reservations_hello">Reservations!</string>
 
-    <!-- NOTIFICATIONS STRINGS -->
+    <!-- NOTIFICATIONS FRAGMENT STRINGS -->
     <string name="text_notifications_hello">Notifications!</string>
     
 

@@ -37,7 +37,6 @@ class ScheduleViewHolder(itemView: View, val listener: ReservationItemListener) 
 
     interface ReservationItemListener{
        fun onItemClickReservation(position: Int)
-        fun onItemClickDetalle(btn_detalle:Button,position: Int)
-        fun onTextInput(input:String, position: Int)
+
     }
 }

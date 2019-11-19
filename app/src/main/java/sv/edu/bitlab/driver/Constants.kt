@@ -6,6 +6,7 @@ import sv.edu.bitlab.driver.models.LatLang
 
 
 const val TAG="ACTIVATION_FRAGMENT"
+const val APPLICATION_NAME="sv.edu.bitlab.driver"
 
 var staticGeofences= hashMapOf(
     "park1" to LatLang(13.644454, -89.279587),

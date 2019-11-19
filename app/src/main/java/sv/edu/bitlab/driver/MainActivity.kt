@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.LinearLayout
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -17,7 +16,6 @@ import androidx.fragment.app.Fragment
 import com.google.android.gms.location.Geofence
 import com.google.android.gms.location.GeofencingClient
 import com.google.android.gms.location.GeofencingRequest
-import com.google.android.gms.location.LocationServices
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -26,7 +24,7 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.messaging.FirebaseMessaging
 import sv.edu.bitlab.driver.fragments.activationComponents.ActivationFragment
-import sv.edu.bitlab.driver.fragments.notificationComponents.NotificationFragment
+import sv.edu.bitlab.driver.fragments.historyComponents.HistoryFragment
 import sv.edu.bitlab.driver.fragments.reservationsComponents.ReservationFragment
 import sv.edu.bitlab.driver.interfaces.OnFragmentInteractionListener
 import sv.edu.bitlab.driver.geofence.GeofenceBroadcastReceiver
@@ -127,7 +125,7 @@ class MainActivity : AppCompatActivity(),OnFragmentInteractionListener {
 
             }
             FragmentsIndex.KEY_FRAGMENT_NOTIFICATIONS->{
-                fragment=NotificationFragment.newInstance()
+                fragment=HistoryFragment.newInstance()
 
             }
 

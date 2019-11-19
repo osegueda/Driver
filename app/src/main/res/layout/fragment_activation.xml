@@ -47,6 +47,9 @@
         <Button
             android:id="@+id/activation_btn"
             android:layout_width="wrap_content"
+            android:padding="15dp"
+            android:background="@drawable/input_nav_button"
+            android:textColor="@color/unicomer_white"
             android:layout_height="wrap_content"
             android:layout_marginStart="161dp"
             android:layout_marginEnd="162dp"
