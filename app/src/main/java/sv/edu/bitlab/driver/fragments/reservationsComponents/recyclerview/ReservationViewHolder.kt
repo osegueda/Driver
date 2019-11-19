@@ -30,19 +30,12 @@ class ReservationViewHolder(itemView: View, val listener: ReservationItemListene
 
 
 
-       // listener.onViewDetalleOrden(id_txt!!,fecha_txt!!,total_txt!!,status_txt!!,this.adapterPosition)
-        container?.setOnClickListener{
 
-            listener.onItemClickReservation(this.adapterPosition)
-
-        }
-        
     }
 
 
     interface ReservationItemListener{
-       fun onItemClickReservation(position: Int)
-        fun onItemClickDetalle(btn_detalle:Button,position: Int)
-        fun onTextInput(input:String, position: Int)
+       fun onItemClickReservation(position: Int,status:String,round:Int,id:String,ongoing:Boolean)
+
     }
 }

@@ -150,19 +150,19 @@ class MainActivity : AppCompatActivity(),OnFragmentInteractionListener {
 
         findViewById<LinearLayout>(R.id.container_layout_activation).setOnClickListener{
 
-            Toast.makeText(this,"ACTIVATION",Toast.LENGTH_LONG).show()
+            //Toast.makeText(this,"ACTIVATION",Toast.LENGTH_LONG).show()
             listener?.onFragmentInteraction(FragmentsIndex.KEY_FRAGMENT_ACTIVATION)
 
 
             }
         findViewById<LinearLayout>(R.id.container_layout_reservation).setOnClickListener{
             listener?.onFragmentInteraction(FragmentsIndex.KEY_FRAGMENT_RESERVATIONS)
-            Toast.makeText(this,"RESERVATION",Toast.LENGTH_LONG).show()
+           // Toast.makeText(this,"RESERVATION",Toast.LENGTH_LONG).show()
 
         }
         findViewById<LinearLayout>(R.id.container_layout_notifications).setOnClickListener{
             listener?.onFragmentInteraction(FragmentsIndex.KEY_FRAGMENT_NOTIFICATIONS)
-            Toast.makeText(this,"NOTIFICATION",Toast.LENGTH_LONG).show()
+           // Toast.makeText(this,"NOTIFICATION",Toast.LENGTH_LONG).show()
 
         }
 
@@ -234,7 +234,7 @@ class MainActivity : AppCompatActivity(),OnFragmentInteractionListener {
                 // Show an explanation to the user *asynchronously* -- don't block
                 // this thread waiting for the user's response! After the user
                 // sees the explanation, try again to request the permission.
-                Toast.makeText(this,"dame permissos",Toast.LENGTH_LONG).show()
+                //Toast.makeText(this,"dame permissos",Toast.LENGTH_LONG).show()
             } else {
                 // No explanation needed, we can request the permission.
                 ActivityCompat.requestPermissions(this, PERMISSION_FINE_LOCATION,PERMISSION_FINE_LOCATION_KEY)
@@ -245,7 +245,8 @@ class MainActivity : AppCompatActivity(),OnFragmentInteractionListener {
             }
         } else {
             // Permission has already been granted
-            Toast.makeText(this,"ya te di permissos",Toast.LENGTH_LONG).show()
+           // Toast.makeText(this,"ya te di permissos",Toast.LENGTH_LONG).show()
+            Log.d("PERMISOS","ya te di permissos")
         }
 
     }
@@ -261,7 +262,7 @@ class MainActivity : AppCompatActivity(),OnFragmentInteractionListener {
                     msg = "SUSCRIPTION FAILED"
                 }
                 Log.d("NOTIFICATION", msg)
-                Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+               // Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
             }
         // [END subscribe_topics]
 
@@ -282,7 +283,7 @@ class MainActivity : AppCompatActivity(),OnFragmentInteractionListener {
                 // Log and toast
                 val msg = "the generated token -> $token"
                 Log.d("TOKEN", msg)
-                Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+              //  Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
             })
         // [END retrieve_current_token]
 

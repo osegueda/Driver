@@ -12,12 +12,16 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.tasks.Task
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.functions.FirebaseFunctions
 
 import sv.edu.bitlab.driver.R
 import sv.edu.bitlab.driver.fragments.reservationsComponents.recyclerview.ReservationAdapter
@@ -28,19 +32,32 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 class ReservationFragment : Fragment() ,ReservationViewHolder.ReservationItemListener{
-    override fun onItemClickReservation(position: Int) {
-        Toast.makeText(requireContext(),"TAP ON $position",Toast.LENGTH_LONG).show()
+    override fun onItemClickReservation(position: Int, status: String,round:Int,id:String,ongoing:Boolean) {
 
+        when(status){
 
+            "finished"->{
+                Snackbar.make(requireView(), "The round is already DONE ", Snackbar.LENGTH_LONG)
+                    .setAction("OK") {  }.show()
+            }
+            "ongoing"->{
+
+                finishRound(round,id)
+            }
+
+            "available"->{
+
+                if(ongoing){
+                    Snackbar.make(requireView(), "You have an ongoing reservation in progress", Snackbar.LENGTH_LONG)
+                        .setAction("OK") {  }.show()
+                }
+                else {confirmRound(round,id)}
+            }
+        }
+       // Toast.makeText(requireContext(),"TAP ON $position",Toast.LENGTH_LONG).show()
     }
 
-    override fun onItemClickDetalle(btn_detalle: Button, position: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
 
-    override fun onTextInput(input: String, position: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
 
     private var listener: OnFragmentInteractionListener? = null
     private var firestoredb = FirebaseDatabase.getInstance().getReference("reservations")
@@ -48,10 +65,14 @@ class ReservationFragment : Fragment() ,ReservationViewHolder.ReservationItemLis
     private var fragmentView:View?=null
     private lateinit  var todayDate:String
     private var reservations:ArrayList<Reservation> ?=null
+    private lateinit var functions: FirebaseFunctions
+// ...
+
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        functions = FirebaseFunctions.getInstance()
         getDate()
         reservations= ArrayList()
 
@@ -139,6 +160,79 @@ class ReservationFragment : Fragment() ,ReservationViewHolder.ReservationItemLis
         listener = null
     }
 
+    private fun confirmRound(round:Int,id: String) {
+        val alertDialog = AlertDialog.Builder(requireContext())
+            .setTitle("Confirmation Round Start")
+            .setMessage("Do you want to start the Round: $round")
+            .setPositiveButton("Start") { _, _ ->
+
+                firestoredb.child(todayDate).child("rounds").child(id).child("round_status").setValue("ongoing")
+                    .addOnCompleteListener {
+                        val adapter=listView?.adapter as ReservationAdapter
+                        adapter.reservations=reservations!!
+                        adapter.notifyDataSetChanged()
+                        notifyRound(round.toString(),"ongoing")
+                    }
+                    .addOnFailureListener {
+                        Snackbar.make(requireView(), "Server Error: please try again ", Snackbar.LENGTH_LONG)
+                            .setAction("Retry") {  }.show()
+                    }
+
+
+            }
+            .setNegativeButton("Cancel") { _, _ ->
+                Snackbar.make(requireView(), "The round was canceled ", Snackbar.LENGTH_LONG)
+                    .setAction("Cancel") {  }.show()
+            }
+        alertDialog.show()
+    }
+
+    private fun finishRound(round:Int,id: String) {
+        val alertDialog = AlertDialog.Builder(requireContext())
+            .setTitle("Finishing Round ")
+            .setMessage("Do you want to finish the Round: $round")
+            .setPositiveButton("Finish") { _, _ ->
+
+                firestoredb.child(todayDate).child("rounds").child(id).child("round_status").setValue("finished")
+                    .addOnCompleteListener {
+                        val adapter=listView?.adapter as ReservationAdapter
+                        adapter.reservations=reservations!!
+                        adapter.notifyDataSetChanged()
+                        notifyRound(round.toString(),"finished")
+                    }
+                    .addOnFailureListener {
+                        Snackbar.make(requireView(), "Server Error: please try again ", Snackbar.LENGTH_LONG)
+                            .setAction("Retry") {  }.show()
+                    }
+
+
+            }
+            .setNegativeButton("Cancel") { _, _ ->
+                Snackbar.make(requireView(), "End of Round cancelled ", Snackbar.LENGTH_LONG)
+                    .setAction("Cancel") {  }.show()
+            }
+        alertDialog.show()
+    }
+
+    private fun notifyRound(text: String,status: String): Task<String> {
+        // Create the arguments to the callable function.
+        val data = hashMapOf(
+            "round" to text,
+            "status" to status
+        )
+
+        return functions
+            .getHttpsCallable("notifyRound")
+            .call(data)
+            .continueWith { task ->
+                // This continuation runs on either success or failure, but if the task
+                // has failed then result will throw an Exception which will be
+                // propagated down.
+                val result = task.result?.data as String
+                Log.d("CALL","THE RESULT IS -> $result")
+                result
+            }
+    }
 
     companion object {
 

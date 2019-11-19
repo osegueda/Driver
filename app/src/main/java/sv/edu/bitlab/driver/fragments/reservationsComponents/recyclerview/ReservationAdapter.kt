@@ -67,10 +67,16 @@ class ReservationAdapter(var reservations:ArrayList<Reservation>, val listener: 
             }
         }
 
+        holder.container?.setOnClickListener{
+
+            listener.onItemClickReservation(position,reservations[position].round_status!!,reservations[position].round!!,reservations[position].id!!,isOngoing())
+
+        }
+
         // para el caso cuando no se cumple el minimo de reservaciones hacer check de la cantidad de personas y si es menor a 11 mostrar
         // un dialog si esta seguro que desea continuar el viaje aun con poca cantidad de personas
 
-        disableRounds(holder.container!!,position)
+        //disableRounds(holder.container!!,position)
 
         /*if (reservations.any { reservation->reservation.round_status.equals("available")}) {
             holder.container!!.setBackgroundColor(context.resources.getColor(android.R.color.holo_green_dark))
@@ -92,15 +98,11 @@ class ReservationAdapter(var reservations:ArrayList<Reservation>, val listener: 
 
     }
 
-    private fun disableRounds(cardView:View,position: Int){
+
+    private fun isOngoing():Boolean{
 
 
-        if (reservations.any { reservation -> reservation.round_status.equals("ongoing") }){
-
-            cardView.isEnabled=false
-
-
-        }else{}
+        return reservations.any { reservation -> reservation.round_status.equals("ongoing") }
 
     }
 
