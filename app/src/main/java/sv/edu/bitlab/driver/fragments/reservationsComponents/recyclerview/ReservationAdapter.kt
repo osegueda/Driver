@@ -15,6 +15,7 @@ class ReservationAdapter(var reservations:ArrayList<Reservation>, val listener: 
 ) : RecyclerView.Adapter<ReservationViewHolder>() {
 
 
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReservationViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.list_row_reservation, parent, false)
@@ -58,18 +59,32 @@ class ReservationAdapter(var reservations:ArrayList<Reservation>, val listener: 
 
             "available"->{
                 holder.container!!.setBackgroundColor(ContextCompat.getColor(context,android.R.color.holo_green_dark))
+                holder.card1?.visibility=View.VISIBLE
+                holder.card2?.visibility=View.GONE
             }
             "finished"->{
                 holder.container!!.setBackgroundColor(ContextCompat.getColor(context,android.R.color.holo_red_light))
+                holder.card1?.visibility=View.GONE
+                holder.card2?.visibility=View.VISIBLE
+                holder.card2?.setBackgroundColor(ContextCompat.getColor(context,android.R.color.holo_red_light))
+                holder.result_txt?.text="finished"
+                holder.result_number?.text=reservations[position].round.toString()
+
             }
             "ongoing"->{
                 holder.container!!.setBackgroundColor(ContextCompat.getColor(context,R.color.yellow))
+                holder.card1?.visibility=View.GONE
+                holder.card2?.visibility=View.VISIBLE
+                holder.card2?.setBackgroundColor(ContextCompat.getColor(context, R.color.yellow))
+                holder.result_txt?.text="ongoing"
+                holder.result_number?.text=reservations[position].round.toString()
             }
         }
 
         holder.container?.setOnClickListener{
 
-            listener.onItemClickReservation(position,reservations[position].round_status!!,reservations[position].round!!,reservations[position].id!!,isOngoing())
+            listener.onItemClickReservation(position,reservations[position].round_status!!,reservations[position].round!!,
+                reservations[position].id!!,isOngoing(),reservations[position].pplsize!!)
 
         }
 

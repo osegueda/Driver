@@ -10,9 +10,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.tasks.Task
@@ -32,7 +34,8 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 class ReservationFragment : Fragment() ,ReservationViewHolder.ReservationItemListener{
-    override fun onItemClickReservation(position: Int, status: String,round:Int,id:String,ongoing:Boolean) {
+    override fun onItemClickReservation(position: Int, status: String,round:Int,id:String,ongoing:Boolean
+    ,pplsize:Int) {
 
         when(status){
 
@@ -51,7 +54,17 @@ class ReservationFragment : Fragment() ,ReservationViewHolder.ReservationItemLis
                     Snackbar.make(requireView(), "You have an ongoing reservation in progress", Snackbar.LENGTH_LONG)
                         .setAction("OK") {  }.show()
                 }
-                else {confirmRound(round,id)}
+                else {
+
+
+                    if (pplsize==0) {
+                        confirmRound(round, id,"Do you want to start the Round:")
+                    }else{
+                        confirmRound(round, id,
+                            "The round #$round hasn't filled the max capacity, do you want to start it anyways?")
+
+                    }
+                }
             }
         }
        // Toast.makeText(requireContext(),"TAP ON $position",Toast.LENGTH_LONG).show()
@@ -84,6 +97,7 @@ class ReservationFragment : Fragment() ,ReservationViewHolder.ReservationItemLis
     ): View? {
         val view=inflater.inflate(R.layout.fragment_reservation, container, false)
         fragmentView=view
+
         return view
     }
 
@@ -109,13 +123,18 @@ class ReservationFragment : Fragment() ,ReservationViewHolder.ReservationItemLis
                         reservations?.add(reserv!!)
 
                     }
-
-                    reservations=reservations?.filter {reservation ->
+                //aqui se hace el filter para no mostrar las available
+                    /*reservations=reservations?.filter {reservation ->
                         reservation.available==false
-                    } as ArrayList<Reservation>
+                    } as ArrayList<Reservation>*/
                     val adapter=listView?.adapter as ReservationAdapter
                     adapter.reservations=reservations!!
                     adapter.notifyDataSetChanged()
+
+                    val anim =fragmentView?.findViewById<ConstraintLayout>(R.id.animation_xml)
+                    anim?.visibility=View.GONE
+
+
 
 
                     Log.d("RESERVAS","$reservations")
@@ -160,10 +179,10 @@ class ReservationFragment : Fragment() ,ReservationViewHolder.ReservationItemLis
         listener = null
     }
 
-    private fun confirmRound(round:Int,id: String) {
+    private fun confirmRound(round:Int,id: String,msg:String ) {
         val alertDialog = AlertDialog.Builder(requireContext())
             .setTitle("Confirmation Round Start")
-            .setMessage("Do you want to start the Round: $round")
+            .setMessage(msg)
             .setPositiveButton("Start") { _, _ ->
 
                 firestoredb.child(todayDate).child("rounds").child(id).child("round_status").setValue("ongoing")
@@ -172,6 +191,7 @@ class ReservationFragment : Fragment() ,ReservationViewHolder.ReservationItemLis
                         adapter.reservations=reservations!!
                         adapter.notifyDataSetChanged()
                         notifyRound(round.toString(),"ongoing")
+
                     }
                     .addOnFailureListener {
                         Snackbar.make(requireView(), "Server Error: please try again ", Snackbar.LENGTH_LONG)
@@ -232,6 +252,10 @@ class ReservationFragment : Fragment() ,ReservationViewHolder.ReservationItemLis
                 Log.d("CALL","THE RESULT IS -> $result")
                 result
             }
+    }
+
+    fun allReseravationsTodb(){
+
     }
 
     companion object {

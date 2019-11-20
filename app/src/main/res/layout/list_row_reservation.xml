@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-                android:id="@+id/item_container_reservation"
->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+
+    >
 
 
     <androidx.cardview.widget.CardView
-            xmlns:card_view="http://schemas.android.com/apk/res-auto"
-            android:layout_width="match_parent"
+        android:layout_width="match_parent"
             android:layout_height="wrap_content"
             card_view:cardCornerRadius="4dp"
             card_view:cardElevation="5dp"
@@ -18,65 +18,108 @@
 
         <LinearLayout android:layout_width="match_parent"
                       android:layout_height="wrap_content"
+            android:id="@+id/item_container_reservation"
                       android:orientation="vertical"
-        >
+            >
+<LinearLayout
 
-            <TextView
-                    android:layout_marginTop="20dp"
-                    android:id="@+id/idTxt"
-                    android:textStyle="bold"
-                    android:textSize="20sp"
-                    android:layout_marginStart="30dp"
-                    android:layout_marginEnd="30dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:focusable="true"
-                    android:text="@string/reservation_id"/>
-            <TextView
-                    android:layout_marginStart="30dp"
+    android:id="@+id/test1"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="wrap_content">
+    <TextView
+        android:layout_marginTop="20dp"
+        android:id="@+id/idTxt"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        android:text="@string/reservation_id"/>
+    <TextView
+        android:layout_marginStart="30dp"
 
-                    android:id="@+id/statusTxt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/status" />
-
-
-            <TextView
-                    android:layout_marginStart="30dp"
-                    android:id="@+id/dateTxt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/date" />
-            <TextView
-                    android:layout_marginStart="30dp"
-
-                    android:id="@+id/countTxt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/reservation_count" />
-            <TextView
-                    android:layout_marginStart="30dp"
-
-                    android:id="@+id/roundTxt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/round" />
-            <TextView
-                    android:layout_marginStart="30dp"
-                    android:layout_marginBottom="20dp"
-                    android:id="@+id/scheduleTxt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/schedule" />
+        android:id="@+id/statusTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/status" />
 
 
+    <TextView
+        android:layout_marginStart="30dp"
+        android:id="@+id/dateTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/date" />
+    <TextView
+        android:layout_marginStart="30dp"
+
+        android:id="@+id/countTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/reservation_count" />
+    <TextView
+        android:layout_marginStart="30dp"
+
+        android:id="@+id/roundTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/round" />
+    <TextView
+        android:layout_marginStart="30dp"
+        android:layout_marginBottom="20dp"
+        android:id="@+id/scheduleTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/schedule" />
+
+</LinearLayout>
 
 
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/test2"
+android:visibility="gone"
+    android:layout_width="match_parent"
+    android:background="@color/unicomer_white"
+    android:layout_height="130dp">
 
+
+    <TextView
+        android:id="@+id/result_round_number_txt"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:textSize="40sp"
+        android:layout_marginEnd="24dp"
+        android:textAlignment="center"
+        android:background="@drawable/round_button"
+        android:textColor="@color/unicomer_white"
+        android:text="@string/reservation_number"
+        card_view:layout_constraintBottom_toBottomOf="parent"
+        card_view:layout_constraintEnd_toEndOf="parent"
+        card_view:layout_constraintHorizontal_bias="0.775"
+        card_view:layout_constraintStart_toEndOf="@+id/result_txt"
+        card_view:layout_constraintTop_toTopOf="parent"
+        card_view:layout_constraintVertical_bias="0.503" />
+
+    <TextView
+        android:id="@+id/result_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:text="@string/reservation_result"
+        android:textSize="25sp"
+        card_view:layout_constraintBottom_toBottomOf="@+id/result_round_number_txt"
+        card_view:layout_constraintStart_toStartOf="parent"
+        card_view:layout_constraintTop_toTopOf="@+id/result_round_number_txt"
+        card_view:layout_constraintVertical_bias="0.504" />
+</androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
-
 
 
     </androidx.cardview.widget.CardView>
 
-</LinearLayout>
+
+
+</FrameLayout>

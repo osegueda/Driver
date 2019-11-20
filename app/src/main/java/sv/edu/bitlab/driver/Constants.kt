@@ -15,7 +15,13 @@ var staticGeofences= hashMapOf(
 
 
 )
+var static_images= mutableListOf(
 
+    R.drawable.ic_notifications,
+    R.drawable.ic_arrow,
+    R.drawable.ic_stat_ic_notification
+
+)
 
 
 const val PACKAGE_NAME = "com.google.android.gms.location.Geofence"

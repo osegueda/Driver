@@ -25,7 +25,11 @@
 
     <!-- NOTIFICATIONS FRAGMENT STRINGS -->
     <string name="text_notifications_hello">Notifications!</string>
-    
+
+    <!-- LOTTIE STRINGS -->
+
+    <string name="lottie_fragment_reservations_part1"><b>Loading data from server</b>  </string>
+    <string name="lottie_fragment_reservations_part2">Please wait</string>
 
 
 
@@ -41,6 +45,8 @@
     <string name="title_reservations">Reservations</string>
     <string name="title_notifications">Notifications</string>
     <string name="two_format_string">%1$s %2$s</string>
+    <string name="reservation_number"> 1</string>
+    <string name="reservation_result"><b>Your round number</b></string>
 
     <!-- ACTIVATION FRAGMENT XML STRINGS -->
 
@@ -50,9 +56,9 @@
 
 
     <string-array name="schedule">
-        <item>7:00 AM - 9:00 AM</item>
-        <item>11:00 AM - 1:00 PM</item>
-        <item>5:30 PM-7:30 PM</item>
+        <item>Edificio 1</item>
+        <item>Edificio 2</item>
+        <item>Edificio 3</item>
 
 
     </string-array>
@@ -92,6 +98,31 @@
     <string name="permission_denied_explanation">Permission was denied, but is needed for core
         functionality.</string>
     <string name="settings">Settings</string>
+
+    <!-- Firebase NOTIFICATIONS STRINGS-->
+
+
+
+    <string name="quickstart_message">Click the SUBSCRIBE TO SERVICE button below to subscribe to the
+        SERVICE topic. Messages sent to the weather topic will be received. The LOG TOKEN button logs the
+        InstanceID token to logcat.</string>
+    <string name="subscribe_to_weather">Subscribe To Weather</string>
+    <string name="log_token">Log Token</string>
+
+    <string name="msg_subscribed">Subscribed to weather topic</string>
+    <string name="msg_token_fmt" translatable="false">InstanceID Token: %s</string>
+
+    <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
+    <!--
+        This is the name that users will see when interacting with this channel.
+        It should describe the category of notifications that will be sent through this channel
+     -->
+    <!-- [START fcm_default_icon_string] -->
+    <string name="default_notification_channel_name" translatable="true">Service</string>
+    <!-- [END fcm_default_icon_string] -->
+    <string name="msg_subscribe_failed">Failed to subscribe to service topic</string>
+    <string name="fcm_message">FCM Message</string>
+
 
 
 

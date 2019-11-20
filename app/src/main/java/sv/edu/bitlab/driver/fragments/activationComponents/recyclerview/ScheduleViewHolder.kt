@@ -1,7 +1,7 @@
-package sv.edu.bitlab.tarea6.ordenHistorial.recyclerView
+package sv.edu.bitlab.driver.fragments.activationComponents.recyclerview
 
 import android.view.View
-import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.list_row_schedule.view.*
@@ -9,7 +9,7 @@ import kotlinx.android.synthetic.main.list_row_schedule.view.*
 
 class ScheduleViewHolder(itemView: View, val listener: ReservationItemListener) : RecyclerView.ViewHolder(itemView)  {
 
-
+    var image:ImageView?=null
     var schedule_txt:TextView?=null
     var container:View?=null
 
@@ -20,7 +20,7 @@ class ScheduleViewHolder(itemView: View, val listener: ReservationItemListener) 
 
         schedule_txt=itemView.txt_schedule
         container=itemView.item_container_schedule
-
+        image=itemView.img_view_arrow
 
 
 

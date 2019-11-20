@@ -2,7 +2,6 @@ package sv.edu.bitlab.driver.fragments.activationComponents
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -14,10 +13,8 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.crashlytics.android.Crashlytics.log
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.iid.FirebaseInstanceId
@@ -25,17 +22,15 @@ import kotlinx.android.synthetic.main.fragment_activation.view.*
 import sv.edu.bitlab.driver.APPLICATION_NAME
 
 import sv.edu.bitlab.driver.R
-import sv.edu.bitlab.driver.R.array.schedule
 import sv.edu.bitlab.driver.interfaces.OnFragmentInteractionListener
-import sv.edu.bitlab.tarea6.ordenHistorial.recyclerView.ScheduleAdapter
-import sv.edu.bitlab.tarea6.ordenHistorial.recyclerView.ScheduleViewHolder
+import sv.edu.bitlab.driver.static_images
+import sv.edu.bitlab.driver.fragments.activationComponents.recyclerview.ScheduleAdapter
+import sv.edu.bitlab.driver.fragments.activationComponents.recyclerview.ScheduleViewHolder
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import java.util.*
-import kotlin.collections.ArrayList
 
 
-class ActivationFragment : Fragment(),ScheduleViewHolder.ReservationItemListener {
+class ActivationFragment : Fragment(), ScheduleViewHolder.ReservationItemListener {
     override fun onItemClickReservation(position: Int) {
        Toast.makeText(requireContext(),"Clicked on #$position",Toast.LENGTH_LONG).show()
     }
@@ -47,6 +42,7 @@ class ActivationFragment : Fragment(),ScheduleViewHolder.ReservationItemListener
     private var activationPressed:Boolean=false
     private var firestoredb = FirebaseDatabase.getInstance().getReference("reservations")
     private lateinit var today_date:String
+    private  lateinit var images:MutableList<Int>
     private val sharedPreferences: SharedPreferences?
         get() = context?.getSharedPreferences(APPLICATION_NAME, Context.MODE_PRIVATE)
 
@@ -55,6 +51,7 @@ class ActivationFragment : Fragment(),ScheduleViewHolder.ReservationItemListener
         super.onCreate(savedInstanceState)
         activationPressed=getPreference("service")!!
         schedule=resources.getStringArray(R.array.schedule)
+        images= static_images
 
 
 
@@ -98,7 +95,7 @@ class ActivationFragment : Fragment(),ScheduleViewHolder.ReservationItemListener
 
         recycler=view.findViewById(R.id.recyclerView_reservations_schedule)
         recycler?.layoutManager = LinearLayoutManager(this.context)
-        recycler?.adapter = ScheduleAdapter(schedule!!,this,requireContext())
+        recycler?.adapter = ScheduleAdapter(images, schedule!!,this,requireContext())
 
         val current = LocalDateTime.now()
         val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
