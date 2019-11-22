@@ -19,7 +19,7 @@
     <LinearLayout
         android:id="@+id/container_navigation"
         android:layout_width="match_parent"
-        android:layout_height="64dp"
+        android:layout_height="wrap_content"
         android:background="@color/unicomer_color"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -36,22 +36,23 @@
             android:orientation="vertical" >
 
             <ImageView
+                android:layout_margin="9dp"
                 android:id="@+id/image_view_nav_activation"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="60"
                 android:contentDescription="@string/text_content_description_ic_navigation"
-                app:srcCompat="@drawable/ic_activation" />
+                app:srcCompat="@drawable/ic_power" />
 
             <TextView
                 android:id="@+id/text_view_nav_activation"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="40"
-                android:textColor="@color/unicomer_white"
-                android:fontFamily="@font/roboto"
+                android:fontFamily="@font/actor"
                 android:text="@string/text_nav_activation"
-                android:textAlignment="center" />
+                android:textAlignment="center"
+                android:textColor="@color/unicomer_white" />
 
         </LinearLayout>
 
@@ -65,22 +66,23 @@
             android:orientation="vertical" >
 
             <ImageView
+                android:layout_margin="9dp"
                 android:id="@+id/image_view_nav_reservation"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="60"
                 android:contentDescription="@string/text_content_description_ic_navigation"
-                app:srcCompat="@drawable/ic_reservation" />
+                app:srcCompat="@drawable/ic_document" />
 
             <TextView
                 android:id="@+id/text_view_nav_reservation"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="40"
-                android:textColor="@color/unicomer_white"
-                android:fontFamily="@font/roboto"
+                android:fontFamily="@font/actor"
                 android:text="@string/text_nav_rounds"
-                android:textAlignment="center" />
+                android:textAlignment="center"
+                android:textColor="@color/unicomer_white" />
 
         </LinearLayout>
 
@@ -96,22 +98,23 @@
             android:orientation="vertical">
 
             <ImageView
+                android:layout_margin="9dp"
                 android:id="@+id/image_view_nav_notifications"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="60"
                 android:contentDescription="@string/text_content_description_ic_navigation"
-                app:srcCompat="@drawable/ic_history" />
+                app:srcCompat="@drawable/ic_clock_1" />
 
             <TextView
                 android:id="@+id/text_view_nav_notifications"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="40"
-                android:textColor="@color/unicomer_white"
-                android:fontFamily="@font/roboto"
+                android:fontFamily="@font/actor"
                 android:text="@string/text_nav_history"
-                android:textAlignment="center" />
+                android:textAlignment="center"
+                android:textColor="@color/unicomer_white" />
 
         </LinearLayout>
 

@@ -10,57 +10,94 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <LinearLayout
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="56dp"
-            android:text="@string/txt_activate_service"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="60dp"
-            android:text="@string/txt_reservations_schedule"
-            app:layout_constraintEnd_toEndOf="@+id/textView"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="@+id/textView"
-            app:layout_constraintTop_toBottomOf="@+id/textView" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView_reservations_schedule"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:layout_marginStart="1dp"
-            android:layout_marginTop="60dp"
-            android:layout_marginEnd="1dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView2" />
-
-        <Button
-            android:id="@+id/activation_btn"
-            android:layout_width="wrap_content"
-            android:padding="15dp"
-            android:background="@drawable/input_nav_button"
-            android:textColor="@color/unicomer_white"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="161dp"
-            android:layout_marginEnd="162dp"
-            android:layout_marginBottom="112dp"
-            android:text="@string/btn_activate_reservations"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.51"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/recyclerView_reservations_schedule"
-            app:layout_constraintVertical_bias="0.543" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:background="@drawable/background_color"
+                android:id="@+id/image_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/recyclerView_reservations_schedule">
+
+                <ImageView
+                    android:layout_marginTop="80dp"
+                    android:id="@+id/imageView4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_driver_background_2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </LinearLayout>
+
+            <androidx.cardview.widget.CardView
+                android:layout_margin="30dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/actor"
+                        android:padding="25dp"
+                        android:textColor="#000"
+                        android:text="Iniciar un viaje"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/actor"
+                        android:padding="25dp"
+                        android:text="Horarios de viaje:" />
+
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:layout_margin="20dp"
+                        android:id="@+id/recyclerView_reservations_schedule"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="1dp"
+                        android:layout_marginEnd="1dp" />
+
+                    <Button
+                        android:id="@+id/activation_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="105dp"
+                        android:layout_marginBottom="15dp"
+                        android:background="@drawable/input_nav_button"
+                        android:fontFamily="@font/actor"
+                        android:padding="15dp"
+                        android:text="@string/btn_activate_reservations"
+                        android:textColor="@color/unicomer_white" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+
+
+
+
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
