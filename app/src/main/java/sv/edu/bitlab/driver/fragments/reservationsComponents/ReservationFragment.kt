@@ -1,7 +1,7 @@
 package sv.edu.bitlab.driver.fragments.reservationsComponents
 
 import android.content.Context
-import android.net.Uri
+
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -9,9 +9,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.FrameLayout
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -25,6 +22,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.functions.FirebaseFunctions
+import sv.edu.bitlab.driver.FragmentsIndex
 
 import sv.edu.bitlab.driver.R
 import sv.edu.bitlab.driver.fragments.reservationsComponents.recyclerview.ReservationAdapter
@@ -35,6 +33,11 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 class ReservationFragment : Fragment() ,ReservationViewHolder.ReservationItemListener{
+    override fun itemClickToDetail(rsv: Reservation) {
+        listener?.onFragmentInteraction(FragmentsIndex.KEY_FRAGMENT_RESERVATIONS_DETAIL,rsv,isOngoing())
+    }
+
+
     override fun onItemClickReservation(position: Int, status: String,round:Int,id:String,ongoing:Boolean
     ,pplsize:Int) {
 
@@ -266,7 +269,12 @@ class ReservationFragment : Fragment() ,ReservationViewHolder.ReservationItemLis
                 result
             }
     }
+    private fun isOngoing():Boolean{
 
+
+        return reservations!!.any { reservation -> reservation.round_status.equals("ongoing") }
+
+    }
     private fun allReseravationsTodb(finishedReservation:Reservation){
 
         Log.d("USERS","the users are ->${finishedReservation.users}")

@@ -25,16 +25,42 @@ import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.messaging.FirebaseMessaging
 import sv.edu.bitlab.driver.fragments.activationComponents.ActivationFragment
 import sv.edu.bitlab.driver.fragments.historyComponents.HistoryFragment
+import sv.edu.bitlab.driver.fragments.reservationsComponents.ReservationDetailFragment
 import sv.edu.bitlab.driver.fragments.reservationsComponents.ReservationFragment
 import sv.edu.bitlab.driver.interfaces.OnFragmentInteractionListener
 import sv.edu.bitlab.driver.geofence.GeofenceBroadcastReceiver
-import sv.edu.bitlab.driver.models.Dia
 import sv.edu.bitlab.driver.models.OngoingReservation
 import sv.edu.bitlab.driver.models.Reservation
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 class MainActivity : AppCompatActivity(),OnFragmentInteractionListener {
+    override fun onFragmentInteraction(index: FragmentsIndex, obj1: Any, obj2: Any) {
+        var fragment:Fragment?=null
+        var tag:String?=null
+        val builder=supportFragmentManager.beginTransaction()
+
+        when(index){
+
+            FragmentsIndex.KEY_FRAGMENT_RESERVATIONS_DETAIL->{
+                tag= TAG2
+                fragment=ReservationDetailFragment.newInstance(obj1 as Reservation,obj2 as Boolean)
+            }
+
+
+
+        }
+        builder
+            .replace(R.id.container_fragments,fragment!!)
+            .addToBackStack(tag)
+            .commit()
+    }
+
+    override fun onFragmentInteraction(index: FragmentsIndex, obj: Any) {
+
+
+
+    }
 
     private var listener:OnFragmentInteractionListener?=null
     private lateinit var geofencingClient: GeofencingClient
@@ -43,7 +69,7 @@ class MainActivity : AppCompatActivity(),OnFragmentInteractionListener {
     private lateinit var  reservations:ArrayList<Reservation>
     private var firestoredb = FirebaseDatabase.getInstance().getReference("reservations")
     private lateinit var ongoingRounds:ArrayList<OngoingReservation>
-    private var horario= getallhours()
+
 
 
 
@@ -136,7 +162,7 @@ class MainActivity : AppCompatActivity(),OnFragmentInteractionListener {
 
         }
         builder
-            .replace(R.id.container_fragments,fragment)
+            .replace(R.id.container_fragments,fragment!!)
             .commit()
 
     }

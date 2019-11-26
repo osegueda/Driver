@@ -87,6 +87,7 @@
 
 
         <LinearLayout
+            android:visibility="gone"
             android:id="@+id/container_layout_notifications"
             android:layout_width="0dp"
             android:clickable="true" android:focusable="true"

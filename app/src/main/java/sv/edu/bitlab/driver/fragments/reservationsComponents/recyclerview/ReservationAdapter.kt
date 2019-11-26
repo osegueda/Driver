@@ -83,8 +83,9 @@ class ReservationAdapter(var reservations:ArrayList<Reservation>, val listener: 
 
         holder.container?.setOnClickListener{
 
-            listener.onItemClickReservation(position,reservations[position].round_status!!,reservations[position].round!!,
-                reservations[position].id!!,isOngoing(),reservations[position].pplsize!!)
+            listener.itemClickToDetail(reservations[position])
+          /*  listener.onItemClickReservation(position,reservations[position].round_status!!,reservations[position].round!!,
+                reservations[position].id!!,isOngoing(),reservations[position].pplsize!!)*/
 
         }
 
@@ -114,13 +115,13 @@ class ReservationAdapter(var reservations:ArrayList<Reservation>, val listener: 
     }
 
 
+
     private fun isOngoing():Boolean{
 
 
         return reservations.any { reservation -> reservation.round_status.equals("ongoing") }
 
     }
-
 
 }
 

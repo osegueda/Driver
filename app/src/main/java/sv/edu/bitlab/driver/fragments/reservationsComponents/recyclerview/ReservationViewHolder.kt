@@ -5,6 +5,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.list_row_reservation.view.*
+import sv.edu.bitlab.driver.models.Reservation
 
 class ReservationViewHolder(itemView: View, val listener: ReservationItemListener) : RecyclerView.ViewHolder(itemView)  {
 
@@ -51,6 +52,6 @@ class ReservationViewHolder(itemView: View, val listener: ReservationItemListene
 
     interface ReservationItemListener{
        fun onItemClickReservation(position: Int,status:String,round:Int,id:String,ongoing:Boolean,pplsize:Int)
-
+        fun itemClickToDetail(rsv:Reservation)
     }
 }
