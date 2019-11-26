@@ -25,16 +25,15 @@ class ReservationAdapter(var reservations:ArrayList<Reservation>, val listener: 
     override fun onBindViewHolder(holder: ReservationViewHolder, position: Int) {
         holder.bindData()
         holder.date_txt?.visibility= View.GONE
-        holder.status_txt?.visibility=View.GONE
         holder.id_txt?.text = context.resources.getString(
             R.string.two_format_string,
-            "ID:",
-            reservations[position].id
-        )
-        holder.round_txt?.text = context.resources.getString(
-            R.string.two_format_string,
-            "Round Number:",
+            "Viaje N:",
             reservations[position].round.toString()
+        )
+        holder.status_txt?.text = context.resources.getString(
+            R.string.two_format_string,
+            "Estado:",
+            reservations[position].round_status.toString()
         )
         holder.schedule_txt?.text = context.resources.getString(
             R.string.two_format_string,
@@ -43,14 +42,8 @@ class ReservationAdapter(var reservations:ArrayList<Reservation>, val listener: 
         )
         holder.count_txt?.text = context.resources.getString(
             R.string.two_format_string,
-            "Available Slots:",
+            "Espacios disponibles:",
             reservations[position].pplsize.toString()
-        )
-        holder.status_txt?.text=context.resources.getString(
-            R.string.two_format_string,
-            "Round Status",
-            reservations[position].round_status.toString()
-
         )
         Log.d("backgorund", "$reservations")
 
@@ -60,24 +53,15 @@ class ReservationAdapter(var reservations:ArrayList<Reservation>, val listener: 
             "available"->{
                 holder.container!!.setBackgroundColor(ContextCompat.getColor(context,android.R.color.holo_green_dark))
                 holder.card1?.visibility=View.VISIBLE
-                holder.card2?.visibility=View.GONE
+                holder.status_image!!.setImageResource(R.drawable.ic_stop_1)
             }
             "finished"->{
                 holder.container!!.setBackgroundColor(ContextCompat.getColor(context,android.R.color.holo_red_light))
-                holder.card1?.visibility=View.GONE
-                holder.card2?.visibility=View.VISIBLE
-                holder.card2?.setBackgroundColor(ContextCompat.getColor(context,android.R.color.holo_red_light))
-                holder.result_txt?.text="finished"
-                holder.result_number?.text=reservations[position].round.toString()
-
+                holder.status_image!!.setImageResource(R.drawable.ic_checked_1)
             }
             "ongoing"->{
                 holder.container!!.setBackgroundColor(ContextCompat.getColor(context,R.color.yellow))
-                holder.card1?.visibility=View.GONE
-                holder.card2?.visibility=View.VISIBLE
-                holder.card2?.setBackgroundColor(ContextCompat.getColor(context, R.color.yellow))
-                holder.result_txt?.text="ongoing"
-                holder.result_number?.text=reservations[position].round.toString()
+                holder.status_image!!.setImageResource(R.drawable.ic_play_button_1)
             }
         }
 
