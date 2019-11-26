@@ -54,7 +54,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:contentDescription="@string/text_content_description_ic_navigation"
-                        app:srcCompat="@drawable/ic_power" />
+                        app:srcCompat="@drawable/ic_power_settings_new_black_24dp" />
 
                     <TextView
                         android:textColor="@color/unicomer_white"

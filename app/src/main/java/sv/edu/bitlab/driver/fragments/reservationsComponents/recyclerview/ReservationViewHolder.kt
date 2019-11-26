@@ -37,7 +37,7 @@ class ReservationViewHolder(itemView: View, val listener: ReservationItemListene
         id_txt=itemView.idTxt
         status_txt=itemView.statusTxt
         count_txt=itemView.countTxt
-        round_txt=itemView.roundTxt
+        /*round_txt=itemView.roundTxt*/
         container=itemView.item_container_reservation
 
 

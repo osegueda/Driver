@@ -7,7 +7,6 @@
 
 
     <androidx.cardview.widget.CardView
-
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -17,6 +16,7 @@
         card_view:cardUseCompatPadding="true">
 
         <LinearLayout
+            android:clickable="true"
             android:id="@+id/item_container_reservation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -32,7 +32,7 @@
                     android:id="@+id/imageView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    card_view:srcCompat="@drawable/ic_stop_1" />
+                    card_view:srcCompat="@drawable/ic_right_arrowhead_in_a_circle" />
 
             </LinearLayout>
 
@@ -54,11 +54,12 @@
                     android:fontFamily="@font/abel"
                     android:text="@string/reservation_id"
                     android:textColor="@color/common_google_signin_btn_text_dark_pressed"
-                    android:textSize="20sp"
+                    android:textSize="30sp"
                     android:textStyle="bold" />
 
 
                 <TextView
+                    android:textSize="30sp"
                     android:id="@+id/statusTxt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -70,7 +71,7 @@
 
                 <TextView
                     android:id="@+id/countTxt"
-
+                    android:textSize="30sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
@@ -78,15 +79,15 @@
                     android:text="@string/reservation_count"
                     android:textColor="@color/common_google_signin_btn_text_dark_default" />
 
-                <TextView
+                <!--<TextView
                     android:id="@+id/roundTxt"
-
+                    android:textSize="30sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
                     android:fontFamily="@font/abel"
                     android:text="@string/round"
-                    android:textColor="@color/common_google_signin_btn_text_dark_default" />
+                    android:textColor="@color/common_google_signin_btn_text_dark_default" />-->
 
             </LinearLayout>
         </LinearLayout>
