@@ -28,6 +28,7 @@ import sv.edu.bitlab.driver.fragments.historyComponents.HistoryFragment
 import sv.edu.bitlab.driver.fragments.reservationsComponents.ReservationFragment
 import sv.edu.bitlab.driver.interfaces.OnFragmentInteractionListener
 import sv.edu.bitlab.driver.geofence.GeofenceBroadcastReceiver
+import sv.edu.bitlab.driver.models.Dia
 import sv.edu.bitlab.driver.models.OngoingReservation
 import sv.edu.bitlab.driver.models.Reservation
 import java.time.LocalDateTime
@@ -42,6 +43,7 @@ class MainActivity : AppCompatActivity(),OnFragmentInteractionListener {
     private lateinit var  reservations:ArrayList<Reservation>
     private var firestoredb = FirebaseDatabase.getInstance().getReference("reservations")
     private lateinit var ongoingRounds:ArrayList<OngoingReservation>
+    private var horario= getallhours()
 
 
 
@@ -52,6 +54,8 @@ class MainActivity : AppCompatActivity(),OnFragmentInteractionListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+
 
         getDate()
 

@@ -23,6 +23,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.functions.FirebaseFunctions
 
 import sv.edu.bitlab.driver.R
@@ -74,6 +75,7 @@ class ReservationFragment : Fragment() ,ReservationViewHolder.ReservationItemLis
 
     private var listener: OnFragmentInteractionListener? = null
     private var firestoredb = FirebaseDatabase.getInstance().getReference("reservations")
+    private var db=FirebaseFirestore.getInstance()
     private var listView: RecyclerView?=null
     private var fragmentView:View?=null
     private lateinit  var todayDate:String
@@ -192,6 +194,10 @@ class ReservationFragment : Fragment() ,ReservationViewHolder.ReservationItemLis
                         adapter.notifyDataSetChanged()
                         notifyRound(round.toString(),"ongoing")
 
+
+
+
+
                     }
                     .addOnFailureListener {
                         Snackbar.make(requireView(), "Server Error: please try again ", Snackbar.LENGTH_LONG)
@@ -219,6 +225,13 @@ class ReservationFragment : Fragment() ,ReservationViewHolder.ReservationItemLis
                         adapter.reservations=reservations!!
                         adapter.notifyDataSetChanged()
                         notifyRound(round.toString(),"finished")
+
+                        val idReservation=reservations?.filter { reservation -> reservation.id.equals(id)}
+
+                        if (idReservation!!.isNotEmpty()){
+                            allReseravationsTodb(idReservation[0])
+                        }
+
                     }
                     .addOnFailureListener {
                         Snackbar.make(requireView(), "Server Error: please try again ", Snackbar.LENGTH_LONG)
@@ -254,7 +267,31 @@ class ReservationFragment : Fragment() ,ReservationViewHolder.ReservationItemLis
             }
     }
 
-    fun allReseravationsTodb(){
+    private fun allReseravationsTodb(finishedReservation:Reservation){
+
+        Log.d("USERS","the users are ->${finishedReservation.users}")
+
+        finishedReservation.users.forEach{ user->
+
+            val reservation= hashMapOf(
+
+                "date" to  finishedReservation.date,
+                "schedule" to finishedReservation.schedule,
+                "round" to  finishedReservation.round
+            )
+
+            db.collection("users").document(user).collection("reservations").add(reservation)
+                .addOnSuccessListener {
+                    Log.d("TO-FIRESTORE","all reservations success")
+
+                }
+                .addOnFailureListener{
+                    Log.d("TO-FIRESTORE","reservations failure")
+
+                }
+
+        }
+
 
     }
 

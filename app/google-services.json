@@ -52,6 +52,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "183608746150-67th8ndh81la0dmfsm941se7vem5vhgr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "sv.edu.bitlab.driver",
+            "certificate_hash": "cf2ff236a729997afe6e10c05bb75f30fa581405"
+          }
+        },
+        {
           "client_id": "183608746150-qocuqpndns2rcahu0sstum45u96hptug.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -96,6 +104,14 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "183608746150-en7gjerteokg3pfa4nvmkrsuhriqshb4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "sv.edu.bitlab.ride",
+            "certificate_hash": "c9b9031f5746f42da2e4e21451914531fd6b6334"
+          }
+        },
         {
           "client_id": "183608746150-etaelje5i9tjcpf439c2llvc8rhf40un.apps.googleusercontent.com",
           "client_type": 1,
