@@ -65,6 +65,12 @@ class ReservationDetailFragment : Fragment() ,ReservationDetailViewHolder.Reserv
         val view =inflater.inflate(R.layout.fragment_reservation_detail, container, false)
         fragmentView= view
 
+        view.detail_notify.setOnClickListener {
+
+                notifyAll(rsv.round.toString())
+
+        }
+
         when(rsv.round_status){
 
             "finished"->{
@@ -230,6 +236,26 @@ class ReservationDetailFragment : Fragment() ,ReservationDetailViewHolder.Reserv
 
         return functions
             .getHttpsCallable("notifyRound")
+            .call(data)
+            .continueWith { task ->
+                // This continuation runs on either success or failure, but if the task
+                // has failed then result will throw an Exception which will be
+                // propagated down.
+                val result = task.result?.data as String
+                Log.d("CALL","THE RESULT IS -> $result")
+                result
+            }
+    }
+
+    private fun notifyAll(text: String): Task<String> {
+        // Create the arguments to the callable function.
+        val data = hashMapOf(
+            "round" to text
+
+        )
+
+        return functions
+            .getHttpsCallable("notifyAll")
             .call(data)
             .continueWith { task ->
                 // This continuation runs on either success or failure, but if the task
