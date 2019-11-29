@@ -32,7 +32,6 @@
     <string name="lottie_fragment_reservations_part2">Please wait</string>
 
 
-
     <!-- Reservation cardview (list_row_reservation)-->
     <string name="reservation_id">Reservation ID</string>
     <string name="date">Date</string>
@@ -52,7 +51,7 @@
 
     <string name="txt_activate_service">Reservation Activation</string>
     <string name="txt_reservations_schedule">Reservation Schedules</string>
-    <string name="btn_activate_reservations">Start Service</string>
+    <string name="btn_activate_reservations">Iniciar</string>
 
 
     <string-array name="schedule">
@@ -62,7 +61,6 @@
 
 
     </string-array>
-
 
 
     <!-- GEOFENCE STRINGS-->
@@ -102,7 +100,6 @@
     <!-- Firebase NOTIFICATIONS STRINGS-->
 
 
-
     <string name="quickstart_message">Click the SUBSCRIBE TO SERVICE button below to subscribe to the
         SERVICE topic. Messages sent to the weather topic will be received. The LOG TOKEN button logs the
         InstanceID token to logcat.</string>
@@ -122,8 +119,12 @@
     <!-- [END fcm_default_icon_string] -->
     <string name="msg_subscribe_failed">Failed to subscribe to service topic</string>
     <string name="fcm_message">FCM Message</string>
+    <string name="text_information">Horarios especificados para  los viajes desde el parqueo  hasta unicomer</string>
 
-
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="text_notify_button">Notificar</string>
+    <string name="text_start_button">Iniciar</string>
+    <string name="text_finish_button">Terminar</string>
 
 
 </resources>

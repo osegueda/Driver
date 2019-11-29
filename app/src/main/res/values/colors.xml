@@ -9,4 +9,7 @@
     <color name="unicomer_color">#055EA9</color>
     <color name="unicomer_blue">#0647D6</color>
     <color name="unicomer_white">#FFFFFF</color>
+    <color name="unicomer_black">#000</color>
+    <color name="unicomer_red">#c1272d</color>
+    <color name="unicomer_green">#009245</color>
 </resources>

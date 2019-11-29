@@ -37,6 +37,8 @@ class ReservationFragment : Fragment() ,ReservationViewHolder.ReservationItemLis
     override fun onItemClickReservation(position: Int, status: String,round:Int,id:String,ongoing:Boolean
     ,pplsize:Int) {
 
+
+
         when(status){
 
             "finished"->{
@@ -264,4 +266,5 @@ class ReservationFragment : Fragment() ,ReservationViewHolder.ReservationItemLis
         fun newInstance() =
             ReservationFragment()
     }
+
 }
