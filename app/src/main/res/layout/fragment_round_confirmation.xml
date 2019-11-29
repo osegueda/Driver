@@ -14,7 +14,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
             android:fontFamily="@font/montserrat_bold"
-            android:text="Vuelta # "
+            android:text="@string/text_round_list"
             android:textColor="#1e53a8"
             android:textSize="35sp" />
 
@@ -36,20 +36,20 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:gravity="center_vertical"
-            android:drawableEnd="@drawable/ic_right_arrowhead_in_a_circle"
-            android:textColor="#8b93a0"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
+            android:drawableEnd="@drawable/ic_right_arrowhead_in_a_circle"
             android:fontFamily="@font/montserrat"
-            android:text="Numero de pasajeros  "
+            android:gravity="center_vertical"
+            android:text="@string/text_passengers_list"
+            android:textColor="@color/unicomer_gray"
             android:textSize="19sp" />
 
         <TextView
             android:textSize="19sp"
             android:gravity="center_vertical"
-            android:textColor="#8b93a0"
+            android:textColor="@color/unicomer_black"
             android:layout_marginTop="20dp"
             android:fontFamily="@font/montserrat"
             android:layout_width="wrap_content"
@@ -64,7 +64,6 @@
         android:background="#8b93a0" />
 
     <TextView
-
         android:layout_marginTop="20dp"
         android:gravity="center_vertical"
         android:drawablePadding="35dp"

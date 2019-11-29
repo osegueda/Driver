@@ -10,91 +10,99 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:layout_marginTop="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <LinearLayout
-                android:id="@+id/image_container"
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
-                android:orientation="vertical"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/recyclerView_reservations_schedule">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-                <TextView
+                <LinearLayout
+                    android:id="@+id/image_container"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/actor"
-                    android:padding="20dp"
-                    android:text="Iniciar viaje"
-                    android:textAlignment="center"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="35dp" />
-
-                <ImageView
-                    android:id="@+id/imageView4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_driver_design"
+                    android:layout_height="250dp"
+                    android:background="@color/unicomer_gray"
+                    android:orientation="vertical"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="@+id/recyclerView_reservations_schedule">
 
-            </LinearLayout>
+                    <ImageView
+                        android:id="@+id/imageView4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_driver_design"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-            <LinearLayout
-                android:outlineSpotShadowColor="@color/unicomer_white"
-                android:layout_margin="30dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content">
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/actor"
-                        android:padding="25dp"
-                        android:text="@string/text_information"
-                        android:textColor="#9d9d9d"
-                        android:textSize="20sp" />
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/actor"
+                            android:padding="25dp"
+                            android:text="@string/text_information"
+                            android:textColor="@color/unicomer_gray"
+                            android:textSize="18sp" />
+
+                        <View
+                            android:id="@+id/divider2"
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/unicomer_black" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
 
 
+                        </LinearLayout>
 
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:layout_margin="20dp"
-                        android:id="@+id/recyclerView_reservations_schedule"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="1dp"
-                        android:layout_marginEnd="1dp" />
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recyclerView_reservations_schedule"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/unicomer_blue_light" />
 
-                    <Button
-                        android:id="@+id/activation_btn"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="115dp"
-                        android:layout_marginBottom="15dp"
-                        android:background="@drawable/input_nav_button"
-                        android:fontFamily="@font/actor"
-                        android:padding="15dp"
-                        android:text="@string/btn_activate_reservations"
-                        android:textColor="@color/unicomer_white" />
+                        <Button
+                            android:id="@+id/activation_btn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="25dp"
+                            android:layout_marginBottom="15dp"
+                            android:background="@drawable/input_nav_button"
+                            android:fontFamily="@font/actor"
+                            android:padding="15dp"
+                            android:text="@string/btn_activate_reservations"
+                            android:textColor="@color/unicomer_white" />
+
+
+                    </LinearLayout>
                 </LinearLayout>
+
             </LinearLayout>
 
-        </LinearLayout>
+        </androidx.cardview.widget.CardView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

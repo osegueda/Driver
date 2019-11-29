@@ -158,7 +158,7 @@ class ActivationFragment : Fragment(), ScheduleViewHolder.ReservationItemListene
 
                 activationPressed=false
                 setPreference("service",activationPressed)
-                button.text=getString(R.string.btn_service_activation)
+                button.text=getString(R.string.text_start_button)
                 button.setBackgroundResource(R.drawable.input_nav_button)
                 updateService(false)
                Toast.makeText(requireContext(), "Reservations Deactivated", Toast.LENGTH_LONG).show()

@@ -55,9 +55,8 @@
 
 
     <string-array name="schedule">
-        <item>Edificio 1</item>
-        <item>Edificio 2</item>
-        <item>Edificio 3</item>
+        <item>7:00am - 9:00am</item>
+        <item>4:00pm - 6:00pm</item>
 
 
     </string-array>
@@ -119,17 +118,18 @@
     <!-- [END fcm_default_icon_string] -->
     <string name="msg_subscribe_failed">Failed to subscribe to service topic</string>
     <string name="fcm_message">FCM Message</string>
-<<<<<<< HEAD
+
     <string name="text_information">Horarios especificados para  los viajes desde el parqueo  hasta unicomer</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="text_notify_button">Notificar</string>
     <string name="text_start_button">Iniciar</string>
     <string name="text_finish_button">Terminar</string>
-=======
+
     <string name="text_cancel_confirmationFragment">cancelar</string>
     <string name="text_iniciar_confirmationFragment">iniciar</string>
->>>>>>> f5f3247cb1aff0f6912b653a69b1869ba8d11098
+    <string name="text_round_list">Vuelta #</string>
+    <string name="text_passengers_list" >Numero de pasajeros</string>
 
 
 </resources>

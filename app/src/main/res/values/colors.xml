@@ -12,4 +12,6 @@
     <color name="unicomer_black">#000</color>
     <color name="unicomer_red">#c1272d</color>
     <color name="unicomer_green">#009245</color>
+    <color name="unicomer_gray">#8b93a0</color>
+    <color name="unicomer_blue_light">#4dafe3e9</color>
 </resources>
