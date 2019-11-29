@@ -90,7 +90,7 @@ class MainActivity : AppCompatActivity(),OnFragmentInteractionListener {
         //getAllReservationsOnce()
         ongoingRounds= ArrayList()
         reservations= ArrayList()
-         geofenceList= mutableListOf()
+         //geofenceList= mutableListOf()
         listener=this
         init()
        // getPermisions()
