@@ -225,7 +225,7 @@ class MainActivity : AppCompatActivity(),OnFragmentInteractionListener {
 
 
         }
-       /* geofenceList.add(Geofence.Builder()
+       /* geofenceList.add(Geofence.Builder()git sta
             // Set the request ID of the geofence. This is a string to identify this
             // geofence.
             .setRequestId("park1")
@@ -325,7 +325,9 @@ class MainActivity : AppCompatActivity(),OnFragmentInteractionListener {
                     } else {
                         val coordinate= LatLang(location.latitude,location.longitude)
                         writeLocation(coordinate)
-                       Log.d("LOCATION-LONG-LAST","${location.longitude}")
+                        Toast.makeText(this@MainActivity,"lat->${location.latitude} lang->${location.longitude} ",Toast.LENGTH_LONG).show()
+
+                        Log.d("LOCATION-LONG-LAST","${location.longitude}")
                         Log.d("LOCATION-LAT-LAST","${location.latitude}")
 
 
@@ -343,25 +345,40 @@ class MainActivity : AppCompatActivity(),OnFragmentInteractionListener {
 
     @SuppressLint("MissingPermission")
     private fun requestNewLocationData() {
-        val mLocationRequest = LocationRequest()
+     /*   val mLocationRequest = LocationRequest()
         mLocationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         mLocationRequest.interval = 5000
         mLocationRequest.fastestInterval = 1000
-       // mLocationRequest.numUpdates = 5
+       // mLocationRequest.numUpdates = 5*/
+
+        val mLocationRequest = LocationRequest.create().apply {
+
+            fastestInterval = 1000
+            interval = 1000
+            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+            smallestDisplacement = 1.0f
+
+        }
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         mFusedLocationClient.requestLocationUpdates(
             mLocationRequest, mLocationCallback,
             Looper.myLooper()
         )
+        
     }
 
     private val mLocationCallback = object : LocationCallback() {
         override fun onLocationResult(locationResult: LocationResult) {
             val mLastLocation: Location = locationResult.lastLocation
 
+
+
+            Log.d("LOCATION-ARR","${locationResult.locations}")
             val coordinate= LatLang(mLastLocation.latitude,mLastLocation.longitude)
             writeLocation(coordinate)
+            Toast.makeText(this@MainActivity,"lat->${mLastLocation.latitude} lang->${mLastLocation.longitude} ",Toast.LENGTH_LONG).show()
+
             Log.d("LOCATION-LONG","${mLastLocation.longitude}")
             Log.d("LOCATION-LAT","${mLastLocation.latitude}")
         }
