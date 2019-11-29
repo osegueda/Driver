@@ -119,12 +119,17 @@
     <!-- [END fcm_default_icon_string] -->
     <string name="msg_subscribe_failed">Failed to subscribe to service topic</string>
     <string name="fcm_message">FCM Message</string>
+<<<<<<< HEAD
     <string name="text_information">Horarios especificados para  los viajes desde el parqueo  hasta unicomer</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="text_notify_button">Notificar</string>
     <string name="text_start_button">Iniciar</string>
     <string name="text_finish_button">Terminar</string>
+=======
+    <string name="text_cancel_confirmationFragment">cancelar</string>
+    <string name="text_iniciar_confirmationFragment">iniciar</string>
+>>>>>>> f5f3247cb1aff0f6912b653a69b1869ba8d11098
 
 
 </resources>
