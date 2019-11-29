@@ -16,8 +16,6 @@ class ScheduleViewHolder(itemView: View, val listener: ReservationItemListener) 
 
 
     fun bindData() {
-
-
         schedule_txt=itemView.txt_schedule
         container=itemView.item_container_schedule
         image=itemView.img_view_arrow

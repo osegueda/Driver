@@ -14,19 +14,14 @@ var staticGeofences= hashMapOf(
     "park1" to LatLang(13.644454, -89.279587),
     "park2" to LatLang(13.650160,-89.279547),
     "elanin" to LatLang(13.707566,-89.251402)
-
-
 )
 var times= mutableListOf("1-5","6-58")
 
 var static_images= mutableListOf(
-
     R.drawable.ic_notifications,
     R.drawable.ic_arrow,
     R.drawable.ic_stat_ic_notification
-
 )
-
 
 const val PACKAGE_NAME = "com.google.android.gms.location.Geofence"
 

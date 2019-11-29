@@ -59,13 +59,12 @@
 
     <string name="txt_activate_service">Reservation Activation</string>
     <string name="txt_reservations_schedule">Reservation Schedules</string>
-    <string name="btn_activate_reservations">Start Service</string>
+    <string name="btn_activate_reservations">Iniciar</string>
 
 
     <string-array name="schedule">
-        <item>Edificio 1</item>
-        <item>Edificio 2</item>
-        <item>Edificio 3</item>
+        <item>7:00am - 9:00am</item>
+        <item>4:00pm - 6:00pm</item>
 
 
     </string-array>
@@ -130,6 +129,18 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="text_information">Horarios especificados para  los viajes desde el parqueo  hasta unicomer</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="text_notify_button">Notificar</string>
+    <string name="text_start_button">Iniciar</string>
+    <string name="text_finish_button">Terminar</string>
+
+    <string name="text_cancel_confirmationFragment">cancelar</string>
+    <string name="text_iniciar_confirmationFragment">iniciar</string>
+    <string name="text_round_list">Vuelta #</string>
+    <string name="text_passengers_list" >Numero de pasajeros</string>
 
 
 </resources>
