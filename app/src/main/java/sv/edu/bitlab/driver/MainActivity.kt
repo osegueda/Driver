@@ -1,21 +1,25 @@
 package sv.edu.bitlab.driver
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.location.Location
+import android.location.LocationManager
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Looper
 import android.util.Log
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import com.google.android.gms.location.Geofence
-import com.google.android.gms.location.GeofencingClient
-import com.google.android.gms.location.GeofencingRequest
+import com.google.android.gms.location.*
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -25,9 +29,11 @@ import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.messaging.FirebaseMessaging
 import sv.edu.bitlab.driver.fragments.activationComponents.ActivationFragment
 import sv.edu.bitlab.driver.fragments.historyComponents.HistoryFragment
+import sv.edu.bitlab.driver.fragments.reservationsComponents.ReservationDetailFragment
 import sv.edu.bitlab.driver.fragments.reservationsComponents.ReservationFragment
 import sv.edu.bitlab.driver.interfaces.OnFragmentInteractionListener
 import sv.edu.bitlab.driver.geofence.GeofenceBroadcastReceiver
+import sv.edu.bitlab.driver.models.LatLang
 import sv.edu.bitlab.driver.models.OngoingReservation
 import sv.edu.bitlab.driver.models.Reservation
 import java.time.LocalDateTime
@@ -36,14 +42,36 @@ import java.time.format.DateTimeFormatter
 class MainActivity : AppCompatActivity(),OnFragmentInteractionListener {
 
     private var listener:OnFragmentInteractionListener?=null
+    lateinit var mFusedLocationClient: FusedLocationProviderClient
     private lateinit var geofencingClient: GeofencingClient
     private lateinit var  geofenceList:MutableList<Geofence>
     private lateinit  var todayDate:String
+    private lateinit var  coordinate:LatLang
     private lateinit var  reservations:ArrayList<Reservation>
     private var firestoredb = FirebaseDatabase.getInstance().getReference("reservations")
     private lateinit var ongoingRounds:ArrayList<OngoingReservation>
 
 
+    override fun onFragmentInteraction(index: FragmentsIndex, obj1: Any, obj2: Any) {
+        var fragment:Fragment?=null
+        var tag:String?=null
+        val builder=supportFragmentManager.beginTransaction()
+
+        when(index){
+
+            FragmentsIndex.KEY_FRAGMENT_RESERVATIONS_DETAIL->{
+                tag= TAG2
+                fragment=ReservationDetailFragment.newInstance(obj1 as Reservation,obj2 as Boolean)
+            }
+
+
+
+        }
+        builder
+            .replace(R.id.container_fragments,fragment!!)
+            .addToBackStack(tag)
+            .commit()
+    }
 
 
 
@@ -53,15 +81,19 @@ class MainActivity : AppCompatActivity(),OnFragmentInteractionListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+
+
         getDate()
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+        getLastLocation()
 
         //getAllReservationsOnce()
         ongoingRounds= ArrayList()
         reservations= ArrayList()
-         geofenceList= mutableListOf()
+         //geofenceList= mutableListOf()
         listener=this
         init()
-        //getPermisions()
+       // getPermisions()
         notifications()
         getToken()
         //geofencingClient = LocationServices.getGeofencingClient(this)
@@ -132,7 +164,7 @@ class MainActivity : AppCompatActivity(),OnFragmentInteractionListener {
 
         }
         builder
-            .replace(R.id.container_fragments,fragment)
+            .replace(R.id.container_fragments,fragment!!)
             .commit()
 
     }
@@ -193,7 +225,7 @@ class MainActivity : AppCompatActivity(),OnFragmentInteractionListener {
 
 
         }
-       /* geofenceList.add(Geofence.Builder()
+       /* geofenceList.add(Geofence.Builder()git sta
             // Set the request ID of the geofence. This is a string to identify this
             // geofence.
             .setRequestId("park1")
@@ -215,6 +247,13 @@ class MainActivity : AppCompatActivity(),OnFragmentInteractionListener {
             // Create the geofence.
             .build())*/
 
+    }
+    private fun requestPermissions() {
+        ActivityCompat.requestPermissions(
+            this,
+            arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION),
+            PERMISSION_ID_COARSE_FINE_LOCATION
+        )
     }
 
 
@@ -248,6 +287,14 @@ class MainActivity : AppCompatActivity(),OnFragmentInteractionListener {
         }
 
     }
+
+    private fun checkPermissions(): Boolean {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
+            ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+            return true
+        }
+        return false
+    }
   
     private fun notifications(){
 
@@ -266,6 +313,76 @@ class MainActivity : AppCompatActivity(),OnFragmentInteractionListener {
 
     }
 
+    @SuppressLint("MissingPermission")
+    private fun getLastLocation() {
+        if (checkPermissions()) {
+            if (isLocationEnabled()) {
+
+                mFusedLocationClient.lastLocation.addOnCompleteListener(this) { task ->
+                    var location: Location? = task.result
+                    if (location == null) {
+                        requestNewLocationData()
+                    } else {
+                        val coordinate= LatLang(location.latitude,location.longitude)
+                        writeLocation(coordinate)
+                        Toast.makeText(this@MainActivity,"lat->${location.latitude} lang->${location.longitude} ",Toast.LENGTH_LONG).show()
+
+                        Log.d("LOCATION-LONG-LAST","${location.longitude}")
+                        Log.d("LOCATION-LAT-LAST","${location.latitude}")
+
+
+                    }
+                }
+            } else {
+                Toast.makeText(this, "Turn on location", Toast.LENGTH_LONG).show()
+               // val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+                //startActivity(intent)
+            }
+        } else {
+            requestPermissions()
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun requestNewLocationData() {
+     /*   val mLocationRequest = LocationRequest()
+        mLocationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        mLocationRequest.interval = 5000
+        mLocationRequest.fastestInterval = 1000
+       // mLocationRequest.numUpdates = 5*/
+
+        val mLocationRequest = LocationRequest.create().apply {
+
+            fastestInterval = 1000
+            interval = 1000
+            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+            smallestDisplacement = 1.0f
+
+        }
+
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+        mFusedLocationClient.requestLocationUpdates(
+            mLocationRequest, mLocationCallback,
+            Looper.myLooper()
+        )
+        
+    }
+
+    private val mLocationCallback = object : LocationCallback() {
+        override fun onLocationResult(locationResult: LocationResult) {
+            val mLastLocation: Location = locationResult.lastLocation
+
+
+
+            Log.d("LOCATION-ARR","${locationResult.locations}")
+            val coordinate= LatLang(mLastLocation.latitude,mLastLocation.longitude)
+            writeLocation(coordinate)
+            Toast.makeText(this@MainActivity,"lat->${mLastLocation.latitude} lang->${mLastLocation.longitude} ",Toast.LENGTH_LONG).show()
+
+            Log.d("LOCATION-LONG","${mLastLocation.longitude}")
+            Log.d("LOCATION-LAT","${mLastLocation.latitude}")
+        }
+    }
     private fun getToken(){
 
         FirebaseInstanceId.getInstance().instanceId
@@ -303,6 +420,17 @@ class MainActivity : AppCompatActivity(),OnFragmentInteractionListener {
                 }
                 return
             }
+            PERMISSION_ID_COARSE_FINE_LOCATION-> {
+                // If request is cancelled, the result arrays are empty.
+                if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+
+                    Log.d("PERMITIONS","GRANTED")
+                } else {
+
+                    Log.d("PERMITIONS","NOT GRANTED")
+                }
+                return
+            }
 
             // Add other 'when' lines to check for other
             // permissions this app might request.
@@ -325,6 +453,28 @@ class MainActivity : AppCompatActivity(),OnFragmentInteractionListener {
             }
 
     }
+    fun writeLocation(coordinate:LatLang){
+
+
+        firestoredb.child("$todayDate/location/longitude").setValue(coordinate.longitude)
+            .addOnSuccessListener {
+                Log.d("LONGITUDE-FIRE","THE NODE longitude HAS BEEN CREATED")
+            }
+            .addOnFailureListener {
+
+                Log.d("LONGITUDE-FIRE","THE NODE longitude  WAS NOT CREATED")
+            }
+        firestoredb.child("$todayDate/location/latitude").setValue(coordinate.latitude)
+            .addOnSuccessListener {
+                Log.d("LATITUDE-FIRE","THE NODE latitude HAS BEEN CREATED")
+            }
+            .addOnFailureListener {
+
+                Log.d("LATITUDE-FIRE","THE NODE latitude  WAS NOT CREATED")
+            }
+
+    }
+
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun getDate(){
@@ -333,6 +483,13 @@ class MainActivity : AppCompatActivity(),OnFragmentInteractionListener {
         val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
         val formatted = current.format(formatter)
         todayDate=formatted
+    }
+
+    private fun isLocationEnabled(): Boolean {
+        val locationManager: LocationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(
+            LocationManager.NETWORK_PROVIDER
+        )
     }
 
     private fun getAllReservationsOnce(){
@@ -402,6 +559,35 @@ class MainActivity : AppCompatActivity(),OnFragmentInteractionListener {
                 }else{
                     writeFirstRoundOfDay(firstRound)
                     Log.d("RESERV","NO EXISTE")
+
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                println("The read failed: " + databaseError.code)
+            }
+        })
+
+    }
+
+    private fun getLocation(){
+
+
+        firestoredb.child(todayDate).child("location").addValueEventListener(object :
+            ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (dataSnapshot.exists()){
+
+                    dataSnapshot.children.forEach { reservation ->
+
+                        val coordinates = reservation.getValue(LatLang::class.java)
+                        coordinate=coordinates!!
+                    }
+
+                    Log.d("LATLANG","$ongoingRounds")
+                }else{
+
+                    Log.d("LATLANG","NO EXISTE")
 
                 }
             }

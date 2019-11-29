@@ -26,6 +26,14 @@
     <!-- NOTIFICATIONS FRAGMENT STRINGS -->
     <string name="text_notifications_hello">Notifications!</string>
 
+
+    <!-- DETAIL FRAGMENT STRINGS -->
+    <string name="detail_fragment_start_btn">Start</string>
+    <string name="detail_fragment_finish_btn">Finish</string>
+    <string name="detail_fragment_finished_status">Finished</string>
+    <string name="detail_fragment_cancel_btn">Cancel</string>
+    <string name="detail_fragment_notify_btn">Notify All</string>
+
     <!-- LOTTIE STRINGS -->
 
     <string name="lottie_fragment_reservations_part1"><b>Loading data from server</b>  </string>
@@ -118,6 +126,9 @@
     <!-- [END fcm_default_icon_string] -->
     <string name="msg_subscribe_failed">Failed to subscribe to service topic</string>
     <string name="fcm_message">FCM Message</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string name="text_information">Horarios especificados para  los viajes desde el parqueo  hasta unicomer</string>
 

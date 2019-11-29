@@ -1,11 +1,13 @@
 package sv.edu.bitlab.driver
 
 import android.Manifest
+import sv.edu.bitlab.driver.models.Dia
 
 import sv.edu.bitlab.driver.models.LatLang
 
 
 const val TAG="ACTIVATION_FRAGMENT"
+const val TAG2="DETAIL_FRAGMENT"
 const val APPLICATION_NAME="sv.edu.bitlab.driver"
 
 var staticGeofences= hashMapOf(
@@ -13,6 +15,8 @@ var staticGeofences= hashMapOf(
     "park2" to LatLang(13.650160,-89.279547),
     "elanin" to LatLang(13.707566,-89.251402)
 )
+var times= mutableListOf("1-5","6-58")
+
 var static_images= mutableListOf(
     R.drawable.ic_notifications,
     R.drawable.ic_arrow,
@@ -42,8 +46,9 @@ val PERMISSION_COARSE_LOCATION= arrayOf(Manifest.permission.ACCESS_COARSE_LOCATI
 val PERMISSION_FINE_LOCATION= arrayOf(Manifest.permission.ACCESS_FINE_LOCATION)
 
 // PERMISSION KEYS
-val PERMISSION_READ_STORAGE_KEY = 10
-val PERMISSION_WRITE_STORAGE_KEY = 100
-val PERMISSION_FINE_LOCATION_KEY = 5
-val PERMISSION_CCOARSE_LOCATION_KEY = 6
+const val PERMISSION_READ_STORAGE_KEY = 10
+const val PERMISSION_WRITE_STORAGE_KEY = 100
+const val PERMISSION_FINE_LOCATION_KEY = 5
+const val PERMISSION_COARSE_LOCATION_KEY = 6
 
+const val PERMISSION_ID_COARSE_FINE_LOCATION=7
