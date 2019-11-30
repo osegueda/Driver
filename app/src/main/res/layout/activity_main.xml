@@ -29,7 +29,7 @@
             android:layout_height="wrap_content">
 
             <LinearLayout
-                android:background="@color/unicomer_blue"
+
                 android:id="@+id/container_navigation"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
@@ -39,6 +39,7 @@
                 tools:layout_editor_absoluteX="255dp">
 
                 <LinearLayout
+                    android:background="@drawable/input_nav_button"
                     android:padding="10dp"
                     android:id="@+id/container_layout_activation"
                     android:layout_width="match_parent"
@@ -71,6 +72,7 @@
 
                 <LinearLayout
                     android:padding="10dp"
+                    android:background="@drawable/input_nav_button"
                     android:id="@+id/container_layout_reservation"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
