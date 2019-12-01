@@ -139,7 +139,10 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                 .setContentText(messageBody.notification?.body)
                 .setAutoCancel(true)
                 .setPriority(NotificationCompat.PRIORITY_MAX)
-                .setFullScreenIntent(pendingIntent,true)
+            //.setStyle(NotificationCompat.BigTextStyle()
+              //  .bigText(emailObject.getSubjectAndSnippet()))
+
+            .setFullScreenIntent(pendingIntent,true)
                 .setSound(defaultSoundUri)
                 .setContentIntent(pendingIntent)
 
