@@ -74,7 +74,11 @@ class ReservationAdapter(var reservations:ArrayList<Reservation>, val listener: 
 
 /*
             listener.onItemClickReservation(position,reservations[position].round_status!!,reservations[position].round!!,
+
                 reservations[position].id!!,isOngoing(),reservations[position].pplsize!!)*/
+
+             //   reservations[position].id!!,isOngoing(),reservations[position].pplsize!!)
+
 
         }
 
