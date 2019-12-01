@@ -18,7 +18,7 @@ class ReservationDetailAdapter(var users:ArrayList<String>, val listener: Reserv
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReservationDetailViewHolder{
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.list_row_detail, parent, false)
+            .inflate(R.layout.list_row_confirmation, parent, false)
         return ReservationDetailViewHolder(view, listener)
     }
 

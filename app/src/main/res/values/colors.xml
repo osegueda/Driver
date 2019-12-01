@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#055EA9</color>
     <color name="colorPrimaryDark">#055EA9</color>
-    <color name="colorAccent">#FFF</color>
+    <color name="colorAccent">#D81B60</color>
     <color name="yellow">#FFC107</color>
     <color name="login_colorStart">#055EA9</color>
     <color name="login_colorEnd">#053055</color>
@@ -14,4 +14,5 @@
     <color name="unicomer_green">#009245</color>
     <color name="unicomer_gray">#8b93a0</color>
     <color name="unicomer_blue_light">#4dafe3e9</color>
+
 </resources>

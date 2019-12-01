@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.tasks.Task
@@ -19,8 +20,10 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.functions.FirebaseFunctions
 import kotlinx.android.synthetic.main.fragment_activation.view.*
 import kotlinx.android.synthetic.main.fragment_reservation_detail.view.*
+import kotlinx.android.synthetic.main.fragment_round_confirmation.view.*
 import sv.edu.bitlab.driver.FragmentsIndex
 import sv.edu.bitlab.driver.R
+import sv.edu.bitlab.driver.RESERVATION_MAX_CAPACITY
 import sv.edu.bitlab.driver.fragments.reservationsComponents.recyclerview.ReservationDetailAdapter
 import sv.edu.bitlab.driver.fragments.reservationsComponents.recyclerview.ReservationDetailViewHolder
 import sv.edu.bitlab.driver.interfaces.OnFragmentInteractionListener
@@ -62,30 +65,37 @@ class ReservationDetailFragment : Fragment() ,ReservationDetailViewHolder.Reserv
         savedInstanceState: Bundle?
 
     ): View? {
-        val view =inflater.inflate(R.layout.fragment_reservation_detail, container, false)
+        val view =inflater.inflate(R.layout.fragment_round_confirmation, container, false)
         fragmentView= view
 
-        view.detail_notify.setOnClickListener {
+        view.notify_all_btn.setOnClickListener {
 
                 notifyAll(rsv.round.toString())
 
         }
+        val passesngers= RESERVATION_MAX_CAPACITY-rsv.pplsize!!
+        view.number_passengers_txt.text=passesngers.toString()
+        view.round_number_txt.text=rsv.round.toString()
 
         when(rsv.round_status){
 
             "finished"->{
-                view.notify_start.text=getString(R.string.detail_fragment_finished_status)
+                view.push_btn.text=getString(R.string.detail_fragment_finished_status)
+                view.push_btn.background=ContextCompat.getDrawable(requireContext(),R.drawable.input_finished_button)
             }
             "ongoing"->{
-                view.notify_start.text=getString(R.string.detail_fragment_finish_btn)
+                view.push_btn.text=getString(R.string.detail_fragment_finish_btn)
+                view.push_btn.background=ContextCompat.getDrawable(requireContext(),R.drawable.input_finished_button)
             }
             "available"->{
-                view.notify_start.text=getString(R.string.detail_fragment_start_btn)
+
+                view.push_btn.text=getString(R.string.detail_fragment_start_btn)
+
             }
 
         }
 
-        view.notify_start.setOnClickListener {
+        view.push_btn.setOnClickListener {
 
 
             when(rsv.round_status){
@@ -126,7 +136,7 @@ class ReservationDetailFragment : Fragment() ,ReservationDetailViewHolder.Reserv
         }
 
 
-        view.cancel_btn.setOnClickListener{
+        view.back_btn.setOnClickListener{
 
             listener?.onFragmentInteraction(FragmentsIndex.KEY_FRAGMENT_RESERVATIONS)
 
@@ -136,7 +146,7 @@ class ReservationDetailFragment : Fragment() ,ReservationDetailViewHolder.Reserv
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        listview=view.findViewById(R.id.recycler_detail)
+        listview=view.findViewById(R.id.passenger_recycler)
         listview?.layoutManager = LinearLayoutManager(this.context!!)
         listview?.adapter = ReservationDetailAdapter(rsv.users,this,requireContext())
     }
