@@ -140,7 +140,18 @@
     <string name="text_cancel_confirmationFragment">cancelar</string>
     <string name="text_iniciar_confirmationFragment">iniciar</string>
     <string name="text_round_list">Vuelta #</string>
-    <string name="text_passengers_list" >Numero de pasajeros</string>
+    <string name="text_passengers_list">Numero de pasajeros</string>
+    <!-- LOGIN STRINGS -->
+    <string name="name_app">InDrive</string>
+    <string name="email_hint">Email</string>
+    <string name="password_hint">Password</string>
+    <string name="ingresar">Ingresar</string>
+    <string name="sign_in">Sign In</string>
+    <string name="forgot_password">Forgot Password?</string>
 
+    <string name="txt_dialog">¿Seguro que desea cerrar sesión?</string>
+    <string name="txt_cancelar">Cancelar</string>
+    <string name="txt_aceptar">Aceptar</string>
+    <string name="cerrar_sesion">cerrar_sesion</string>
 
 </resources>

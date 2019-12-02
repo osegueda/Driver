@@ -7,6 +7,8 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentSender
 import android.content.pm.PackageManager
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.location.Location
 import android.location.LocationManager
 import android.os.Build
@@ -14,9 +16,13 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Looper
 import android.util.Log
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -26,12 +32,14 @@ import com.google.android.gms.location.*
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.gms.tasks.OnSuccessListener
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.messaging.FirebaseMessaging
+import kotlinx.android.synthetic.main.alert_logout_dialog.view.*
 import sv.edu.bitlab.driver.fragments.activationComponents.ActivationFragment
 import sv.edu.bitlab.driver.fragments.historyComponents.HistoryFragment
 import sv.edu.bitlab.driver.fragments.reservationsComponents.ReservationDetailFragment
@@ -42,6 +50,7 @@ import sv.edu.bitlab.driver.models.LatLang
 import sv.edu.bitlab.driver.models.OngoingReservation
 import sv.edu.bitlab.driver.models.Reservation
 import java.text.DateFormat
+import sv.edu.bitlab.driver.models.User
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -69,6 +78,11 @@ class MainActivity : AppCompatActivity(),OnFragmentInteractionListener {
     private var mCurrentLocation: Location? = null
     private var mRequestingLocationUpdates: Boolean? = null
     private var mLastUpdateTime: String? = null
+
+
+    var fbAuth = FirebaseAuth.getInstance()
+    private lateinit var user: User
+    var username: String? = null
 
     override fun onFragmentInteraction(index: FragmentsIndex, obj1: Any, obj2: Any) {
         var fragment:Fragment?=null
@@ -99,6 +113,7 @@ class MainActivity : AppCompatActivity(),OnFragmentInteractionListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+
 /* location settings   */
 
       //  mRequestingLocationUpdates = false
@@ -106,11 +121,26 @@ class MainActivity : AppCompatActivity(),OnFragmentInteractionListener {
       //  mFusedLocationClient2 = LocationServices.getFusedLocationProviderClient(this)
      //   mSettingsClient = LocationServices.getSettingsClient(this)
 
+        //Login session
+        val preferences = getSharedPreferences("User details", Context.MODE_PRIVATE)
+        username = preferences.getString("FirebaseUser", "NO")
+        Log.i("USERNAME", "USER EMAIL: $username")
+        user= User(username,fbAuth.currentUser?.uid)
+
+
+        fbAuth.addAuthStateListener {
+            if(fbAuth.currentUser == null){
+                this.finish()
+            }
+        }
+        //Login Session
+
+
         //createLocationCallback()
         //createLocationRequest()
         //buildLocationSettingsRequest()
 
-/*                  location settigs*/
+        /*  location settigs*/
         getDate()
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         getLastLocation()
@@ -332,6 +362,54 @@ class MainActivity : AppCompatActivity(),OnFragmentInteractionListener {
 
         }
 
+    }
+    ///MENU Y OPCION LOGOUT
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        menuInflater.inflate(R.menu.my_menu, menu)
+        return true
+    }
+
+
+    override fun onOptionsItemSelected(item: MenuItem):Boolean{
+        when(item.itemId){
+            R.id.logout_action -> {
+
+                val mDialogView = LayoutInflater.from(this).inflate(R.layout.alert_logout_dialog,null)
+                val mBuilder = AlertDialog.Builder(this)
+                    .setView(mDialogView)
+
+                val mAlertDialog = mBuilder.create()
+                mAlertDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                mAlertDialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
+                mAlertDialog.show()
+
+                mDialogView.id_cancel_btn.setOnClickListener{
+                    mAlertDialog.dismiss()
+
+                }
+
+                mDialogView.id_confirm_btn.setOnClickListener{
+                    mAlertDialog.dismiss()
+                    signOut()
+                }
+                return true
+            }
+            else -> {
+                return super.onOptionsItemSelected(item)
+            }
+        }
+    }
+
+    fun signOut(){
+        val sharedPreferences = getSharedPreferences("User details", Context.MODE_PRIVATE)
+        val sharedPref = sharedPreferences?.edit()
+        sharedPref!!.clear()
+        sharedPref.apply()
+        val intent = Intent(this, LoginActivity::class.java)
+        startActivity(intent)
+        fbAuth.signOut()
     }
     private fun addGeofenceToList(){
 
