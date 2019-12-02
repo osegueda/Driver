@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.content.IntentSender
 import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationManager
@@ -19,8 +20,12 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
 import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.OnFailureListener
+import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -36,13 +41,17 @@ import sv.edu.bitlab.driver.geofence.GeofenceBroadcastReceiver
 import sv.edu.bitlab.driver.models.LatLang
 import sv.edu.bitlab.driver.models.OngoingReservation
 import sv.edu.bitlab.driver.models.Reservation
+import java.text.DateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.util.*
+import kotlin.collections.ArrayList
+import com.google.android.gms.location.LocationCallback as LocationCallback1
 
 class MainActivity : AppCompatActivity(),OnFragmentInteractionListener {
 
     private var listener:OnFragmentInteractionListener?=null
-    lateinit var mFusedLocationClient: FusedLocationProviderClient
+    private lateinit var mFusedLocationClient: FusedLocationProviderClient
     private lateinit var geofencingClient: GeofencingClient
     private lateinit var  geofenceList:MutableList<Geofence>
     private lateinit  var todayDate:String
@@ -51,6 +60,15 @@ class MainActivity : AppCompatActivity(),OnFragmentInteractionListener {
     private var firestoredb = FirebaseDatabase.getInstance().getReference("reservations")
     private lateinit var ongoingRounds:ArrayList<OngoingReservation>
 
+    //location variables
+    private  var mFusedLocationClient2: FusedLocationProviderClient?=null
+    private var mSettingsClient: SettingsClient? = null
+    private var mLocationRequest: LocationRequest? = null
+    private var mLocationSettingsRequest: LocationSettingsRequest? = null
+    private var mLocationCallback2: LocationCallback1? = null
+    private var mCurrentLocation: Location? = null
+    private var mRequestingLocationUpdates: Boolean? = null
+    private var mLastUpdateTime: String? = null
 
     override fun onFragmentInteraction(index: FragmentsIndex, obj1: Any, obj2: Any) {
         var fragment:Fragment?=null
@@ -81,8 +99,18 @@ class MainActivity : AppCompatActivity(),OnFragmentInteractionListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+/* location settings   */
 
+      //  mRequestingLocationUpdates = false
+      //  mLastUpdateTime = ""
+      //  mFusedLocationClient2 = LocationServices.getFusedLocationProviderClient(this)
+     //   mSettingsClient = LocationServices.getSettingsClient(this)
 
+        //createLocationCallback()
+        //createLocationRequest()
+        //buildLocationSettingsRequest()
+
+/*                  location settigs*/
         getDate()
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         getLastLocation()
@@ -124,6 +152,119 @@ class MainActivity : AppCompatActivity(),OnFragmentInteractionListener {
 
 
     }
+
+    override fun onResume() {
+        super.onResume()
+
+        requestNewLocationData()
+    }
+
+    private fun createLocationCallback() {
+        mLocationCallback2 = object : LocationCallback1() {
+            override fun onLocationResult(locationResult: LocationResult?) {
+                super.onLocationResult(locationResult)
+
+                mCurrentLocation = locationResult!!.lastLocation
+                mLastUpdateTime = DateFormat.getTimeInstance().format(Date())
+
+                getcoordinates()
+                Log.d("LATITUDE-NEW","${mCurrentLocation?.latitude}")
+                Log.d("LONGITUDE-NEW","${mCurrentLocation?.latitude}")
+
+            }
+        }
+    }
+
+    private fun createLocationRequest() {
+        mLocationRequest = LocationRequest()
+
+        // Sets the desired interval for active location updates. This interval is
+        // inexact. You may not receive updates at all if no location sources are available, or
+        // you may receive them slower than requested. You may also receive updates faster than
+        // requested if other applications are requesting location at a faster interval.
+        mLocationRequest?.setInterval(UPDATE_INTERVAL_IN_MILLISECONDS.toLong())
+
+        // Sets the fastest rate for active location updates. This interval is exact, and your
+        // application will never receive updates faster than this value.
+        mLocationRequest?.setFastestInterval(FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS.toLong())
+
+        mLocationRequest?.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+    }
+
+    private fun buildLocationSettingsRequest() {
+        val builder = LocationSettingsRequest.Builder()
+        builder.addLocationRequest(mLocationRequest!!)
+        mLocationSettingsRequest = builder.build()
+    }
+
+    fun getcoordinates(){
+
+        Toast.makeText(this,"LAT->${mCurrentLocation?.latitude} LONG-> ${mCurrentLocation?.longitude}",Toast.LENGTH_LONG).show()
+    }
+
+    private fun startLocationUpdates() {
+        // Begin by checking if the device has the necessary location settings.
+        mSettingsClient?.checkLocationSettings(mLocationSettingsRequest)
+            ?.addOnSuccessListener(this) {
+                Log.i(TAG, "All location settings are satisfied.")
+
+
+                mFusedLocationClient.requestLocationUpdates(
+                    mLocationRequest,
+                    mLocationCallback, Looper.myLooper()
+                )
+                getcoordinates()
+                Log.d("location"," lat ${mCurrentLocation?.latitude} -> long ${mCurrentLocation?.longitude}")
+              //  updateUI()
+            }
+            ?.addOnFailureListener(this) { e ->
+                val statusCode = (e as ApiException).statusCode
+                when (statusCode) {
+                    LocationSettingsStatusCodes.RESOLUTION_REQUIRED -> {
+                        Log.i(
+                            TAG,
+                            "Location settings are not satisfied. Attempting to upgrade " + "location settings "
+                        )
+                        try {
+                            // Show the dialog by calling startResolutionForResult(), and check the
+                            // result in onActivityResult().
+                            val rae = e as ResolvableApiException
+                            rae.startResolutionForResult(this@MainActivity, REQUEST_CHECK_SETTINGS)
+                        } catch (sie: IntentSender.SendIntentException) {
+                            Log.i(TAG, "PendingIntent unable to execute request.")
+                        }
+
+                    }
+                    LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE -> {
+                        val errorMessage =
+                            "Location settings are inadequate, and cannot be " + "fixed here. Fix in Settings."
+                        Log.e(TAG, errorMessage)
+                       // Toast.makeText(this@MainActivity, errorMessage, Toast.LENGTH_LONG).show()
+                        mRequestingLocationUpdates = false
+                    }
+                }
+
+                //updateUI()
+            }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -325,7 +466,7 @@ class MainActivity : AppCompatActivity(),OnFragmentInteractionListener {
                     } else {
                         val coordinate= LatLang(location.latitude,location.longitude)
                         writeLocation(coordinate)
-                        Toast.makeText(this@MainActivity,"lat->${location.latitude} lang->${location.longitude} ",Toast.LENGTH_LONG).show()
+                      //  Toast.makeText(this@MainActivity,"lat->${location.latitude} lang->${location.longitude} ",Toast.LENGTH_LONG).show()
 
                         Log.d("LOCATION-LONG-LAST","${location.longitude}")
                         Log.d("LOCATION-LAT-LAST","${location.latitude}")
@@ -353,10 +494,10 @@ class MainActivity : AppCompatActivity(),OnFragmentInteractionListener {
 
         val mLocationRequest = LocationRequest.create().apply {
 
-            fastestInterval = 1000
+            fastestInterval = 3000
             interval = 1000
             priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-            smallestDisplacement = 1.0f
+           // smallestDisplacement = 1.0f
 
         }
 
@@ -365,10 +506,10 @@ class MainActivity : AppCompatActivity(),OnFragmentInteractionListener {
             mLocationRequest, mLocationCallback,
             Looper.myLooper()
         )
-        
+        //getcoordinates()
     }
 
-    private val mLocationCallback = object : LocationCallback() {
+    private var mLocationCallback = object : LocationCallback1() {
         override fun onLocationResult(locationResult: LocationResult) {
             val mLastLocation: Location = locationResult.lastLocation
 
@@ -377,7 +518,7 @@ class MainActivity : AppCompatActivity(),OnFragmentInteractionListener {
             Log.d("LOCATION-ARR","${locationResult.locations}")
             val coordinate= LatLang(mLastLocation.latitude,mLastLocation.longitude)
             writeLocation(coordinate)
-            Toast.makeText(this@MainActivity,"lat->${mLastLocation.latitude} lang->${mLastLocation.longitude} ",Toast.LENGTH_LONG).show()
+           // Toast.makeText(this@MainActivity,"lat->${mLastLocation.latitude} lang->${mLastLocation.longitude} ",Toast.LENGTH_LONG).show()
 
             Log.d("LOCATION-LONG","${mLastLocation.longitude}")
             Log.d("LOCATION-LAT","${mLastLocation.latitude}")
