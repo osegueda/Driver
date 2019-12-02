@@ -331,11 +331,6 @@ class MainActivity : AppCompatActivity(),OnFragmentInteractionListener {
            // Toast.makeText(this,"RESERVATION",Toast.LENGTH_LONG).show()
 
         }
-        findViewById<LinearLayout>(R.id.container_layout_notifications).setOnClickListener{
-            listener?.onFragmentInteraction(FragmentsIndex.KEY_FRAGMENT_NOTIFICATIONS)
-           // Toast.makeText(this,"NOTIFICATION",Toast.LENGTH_LONG).show()
-
-        }
 
     }
     private fun addGeofenceToList(){

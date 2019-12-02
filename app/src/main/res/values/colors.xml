@@ -4,8 +4,8 @@
     <color name="colorPrimaryDark">#055EA9</color>
     <color name="colorAccent">#D81B60</color>
     <color name="yellow">#FFC107</color>
-    <color name="login_colorStart">#055EA9</color>
-    <color name="login_colorEnd">#053055</color>
+    <color name="loginColorStart">#055EA9</color>
+    <color name="loginColorEnd">#053055</color>
     <color name="unicomer_color">#055EA9</color>
     <color name="unicomer_blue">#0647D6</color>
     <color name="unicomer_white">#FFFFFF</color>
